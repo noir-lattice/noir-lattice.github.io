@@ -3,12 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
+title: noir blogs
+subtitle: 姚先生的小博客
+description: 做技术讲究的就是「说」「学」「逗」「唱」
 keywords:
-author: John Doe
-language:
+  - 姚先生
+  - 姚宇宁
+  - 博客
+  - 「说」
+  - 「学」
+  - 「逗」
+  - 「唱」
+author: noir
+language: zh-cn
 timezone:
 
 # URL
