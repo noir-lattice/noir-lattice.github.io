@@ -12,7 +12,8 @@ categories: kubernetes
 ```shell
 sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher:stable
 ```
-等待容器启动后访问https://192.168.1.13，按照提示设置密码、设置语言与确认访问路径（注意确认地址为node可以访问的地址）。
+等待容器启动后访问https://192.168.1.13
+按照提示设置密码、设置语言与确认访问路径（注意确认地址为node可以访问的地址）。
 
 ## 创建集群
   * 添加集群
