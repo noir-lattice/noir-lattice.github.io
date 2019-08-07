@@ -3,6 +3,7 @@ title: 'kubernates环境搭建(一): 系统环境配置与docker-ce'
 date: 2019-08-07 14:11:35
 tags:
   - kubernetes
+  - rancher
 categories: kubernetes
 ---
 
