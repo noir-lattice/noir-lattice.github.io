@@ -106,7 +106,7 @@ chmod a+x add_mod.sh
 ```shell
 curl https://releases.rancher.com/install-docker/17.06.sh | sh
 ```
-注意这里需要下载Rancher支持的版本（https://smallpdf.com/cn/pdf-to-word）
+注意这里需要下载Rancher支持的版本（https://rancher.com/docs/rancher/v2.x/en/installation/requirements/）
 
 ## 配置守护进程
 ```shell
