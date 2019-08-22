@@ -2,6 +2,11 @@
   "name": "hexo-site",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "clean": "hexo clean",
+    "build": "npm run clean && hexo g",
+    "push": "npm run build && cp ./google4b19cdbfba770829.html public && hexo d"
+  },
   "hexo": {
     "version": "3.9.0"
   },
