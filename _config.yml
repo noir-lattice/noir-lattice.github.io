@@ -4,7 +4,7 @@
 
 # Site
 title: noir blogs
-subtitle: 姚先生的小博客
+subtitle: 姚先生的博客
 description: 做技术讲究的就是「说」「学」「逗」「唱」
 keywords:
   - 姚先生
@@ -20,10 +20,10 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://noir-lattice.github.io/
 root: /
 permalink: :year/:month/:day/:title/
-permalink_defaults:
+permalink_defaults: https://noir-lattice.github.io/
 
 # Directory
 source_dir: source
@@ -88,3 +88,12 @@ deploy:
   type: git
   repo: git@github.com:noir-lattice/noir-lattice.github.io.git
   branch: master
+
+Plugins:
+- hexo-generator-baidu-sitemap
+- hexo-generator-sitemap
+
+baidusitemap:
+  path: baidusitemap.xml
+sitemap:
+  path: sitemap.xml
