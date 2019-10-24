@@ -7,8 +7,7 @@ categories: devops
 ---
 
 ## 简介  
-作为可以私有部署的开源仓库管理系统，gitlab作为一个互联网公司的代码仓库当然是一件寻常的事情了，但是你真的会用Gitlab么？
-Gitlab除了git的基础功能，在线的代码审查及review,还有
+作为可以私有部署的开源仓库管理系统，gitlab作为一个互联网公司的代码仓库当然是一件寻常的事情了，Gitlab除了git的基础功能，在线的代码审查及review,还有
   * ci/cd工具链
   * gitflow
   * gitpage
