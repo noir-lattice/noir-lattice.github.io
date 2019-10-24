@@ -61,8 +61,7 @@ pages:
     expire_in: 1 week
   only:
     - master # this job will affect only the 'master' branch
-
-```  
+```
 
 添加目录文件SUMMARY.md
 
