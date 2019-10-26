@@ -3,7 +3,9 @@ title: Redis的一些理解
 tags:
   - redis
 categories: 缓存中间件
+date: 2019-10-26 11:51:20
 ---
+
 
 ## 简介
 redis是一个开源的内存中的数据结构存储系统，我们常常可以那他来用作缓存、数据库和消息中间件。高效而可靠的外部缓存服务是应用的不可缺少的一部分。
@@ -76,23 +78,49 @@ NIO有很多种，Redis使用I/O多路复用。咱们这里不铺开叙述，多
   * sds：键key“hello”是以SDS（简单动态字符串）存储。
   * redisObject：值val“world”存储在redisObject中。实际上，redis常用5中类型都是以redisObject来存储的；而redisObject中的type字段指明了Value对象的类型，ptr字段则指向对象所在的地址。
 
+### redis通讯协议(RESP)
+RESP 是redis客户端和服务端之前使用的一种通讯协议；
+
+RESP 的特点：实现简单、快速解析、可读性好
+
+For Simple Strings the first byte of the reply is "+" 回复
+
+For Errors the first byte of the reply is "-" 错误
+
+For Integers the first byte of the reply is ":" 整数
+
+For Bulk Strings the first byte of the reply is "$" 字符串
+
+For Arrays the first byte of the reply is "*" 数组
+
 ### String
 字符串对象的底层实现可以是int、raw、embstr。embstr编码和int是通过调用一次内存分配函数来分配一块连续的空间，而raw需要调用两次。通常的embstr：<=39字节的字符串。int：8个字节的长整型。raw：大于39个字节的字符串。
 
 ### List
-一个quicklist，可以两端进两端出
+一个quicklist(以前是Linklist和Ziplist)，可以两端进两端出
 quickList 是 zipList 和 linkedList 的混合体。它将 linkedList 按段切分，每一段使用 zipList 来紧凑存储，多个 zipList 之间使用双向指针串接起来。因为链表的附加空间相对太高，prev 和 next 指针就要占去 16 个字节 (64bit 系统的指针是 8 个字节)，另外每个节点的内存都是单独分配，会加剧内存的碎片化，影响内存管理效率。
+[quicklist](quicklist.png)
 
 ### Linklist
 双端列表，好插入，不好随机读取
 
 ### Ziplist
 压缩列表
+[ziplist](zlist.png)
 
 ### Skiplist
-跳表
+为啥用跳表不用红黑树？
 
 ## 怎么用好
-  1. 主从复制
-  2. 哨兵模式
-  3. Redis-Cluster
+  1. 主从复制  
+  一主多从或者一主一从。
+  主从之间数据完全相同，采用全量复制与增量复制的方式同步。
+  2. 哨兵模式  
+  官方推荐的HA方案就是Redis-Sentinel，在master挂掉后会选举一个master提供服务
+  3. Redis-Cluster  
+  集群方式提供了分布式的数据存储，即实现了分片(sharding)的支持，为了分片数据的可用的多备份  
+   redis cluster集群方式支持主从自动切换  
+   redis cluster集群只有一个库，单例或者主从的话有多个库   
+   redis cluster集群去中心化，只要通过其中一个端口连接即可   
+   redis cluster集群，只有一个db库，不支持多库 
+  堆起来做HA，堆起来拉高QPS!
