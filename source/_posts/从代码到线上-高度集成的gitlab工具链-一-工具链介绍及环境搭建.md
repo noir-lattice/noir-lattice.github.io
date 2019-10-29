@@ -1,5 +1,6 @@
 ---
 title: '从代码到线上,高度集成的gitlab工具链(一): CI/CD'
+date: 2019-09-12 18:30:12
 tags:
   - CI/CD
   - gitlab

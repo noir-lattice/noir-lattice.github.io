@@ -71,7 +71,7 @@ NIO有很多种，Redis使用I/O多路复用。咱们这里不铺开叙述，多
   * Zset：排行榜
 
 ### redisObject
-  ![redisObj]](redisObj.png)
+  ![redisObj](redisObj.png)
   * dictEntry：Redis给每个key-value键值对分配一个dictEntry，里面有着
   * key和val的指针，next指向下一个dictEntry形成链表，这个指针可以将多个
   * 哈希值相同的键值对链接在一起，由此来解决哈希冲突问题(链地址法)。
@@ -99,14 +99,14 @@ For Arrays the first byte of the reply is "*" 数组
 ### List
 一个quicklist(以前是Linklist和Ziplist)，可以两端进两端出
 quickList 是 zipList 和 linkedList 的混合体。它将 linkedList 按段切分，每一段使用 zipList 来紧凑存储，多个 zipList 之间使用双向指针串接起来。因为链表的附加空间相对太高，prev 和 next 指针就要占去 16 个字节 (64bit 系统的指针是 8 个字节)，另外每个节点的内存都是单独分配，会加剧内存的碎片化，影响内存管理效率。
-[quicklist](quicklist.png)
+![quicklist](quicklist.png)
 
 ### Linklist
 双端列表，好插入，不好随机读取
 
 ### Ziplist
 压缩列表
-[ziplist](zlist.png)
+![ziplist](zlist.png)
 
 ### Skiplist
 为啥用跳表不用红黑树？
