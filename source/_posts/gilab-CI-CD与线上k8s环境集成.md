@@ -160,32 +160,32 @@ date: 2019-11-04 13:30:24
 
 ## 关于.gitlab-ci.yaml
   * 支持模板继承
-    ```yaml
+    ```
     .product: &prod_template
-    only:
-      - master
-    retry:
-      2
+      only:
+        - master
+      retry:
+        2
 
     .rollin: &rollin_template
-    <<: *prod_template
-    stage: rollin
-    script:
-    - init_kube_config
-    - check_kube_domain
-    - ensure_namespace
-    - create_secret
-    - check_chart
-    - deploy canary $ROLLIN_PERCENTAGE
-    environment:
-      name: $CI_PROJECT_NAME
-      url: http://$CI_PROJECT_NAME.test.com
+      <<: *prod_template
+      stage: rollin
+      script:
+      - init_kube_config
+      - check_kube_domain
+      - ensure_namespace
+      - create_secret
+      - check_chart
+      - deploy canary $ROLLIN_PERCENTAGE
+      environment:
+        name: $CI_PROJECT_NAME
+        url: http://$CI_PROJECT_NAME.test.com
 
     deploy_canary:
-    <<: *rollin_template
-    stage: canary
-    variables:
-      ROLLIN_PERCENTAGE: $CANARY_WEITHG
+      <<: *rollin_template
+      stage: canary
+      variables:
+        ROLLIN_PERCENTAGE: $CANARY_WEITHG
     ```
   * 支持include
     ```yaml
@@ -197,16 +197,14 @@ date: 2019-11-04 13:30:24
       - template: jobs/test.gitlab-ci.yml
     ```
   * 支持函数定义
-    ```yaml
+    ```
     test:
       stage: test
       image: registry.local/alpine:latest
       script:
         - hello
-  
     .auto_devops: &auto_devops |
-      export CI_WORD="hello gitlab ci!"
-
+      export CI_WORD="hello gitlab ci!
       function hello() {
         echo $CI_WORD
       }

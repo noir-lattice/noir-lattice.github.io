@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "hexo s",
     "clean": "hexo clean",
     "build": "npm run clean && hexo g",
     "push": "npm run build && cp ./google4b19cdbfba770829.html public && hexo d"
