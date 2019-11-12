@@ -3,11 +3,11 @@ const GIFEncoder = require('gifencoder');
 const fs = require('fs');
 
 const { getArg, mustHava } = require('./argv');
-mustHava(['--origin', '--target', '--height', '--width']);
+mustHava(['--origin', '--target', '--height', '--width'], ['--transparent', '--delay', '--quality', '--repeat']);
 
 const encoder = new GIFEncoder(Number(getArg('--width')), Number(getArg('--height')));
+encoder.setTransparent(getArg('--transparent') || '#ffffff00')
 
-console.log(getArg('--origin'))
 pngFileStream(getArg('--origin'))
-  .pipe(encoder.createWriteStream({ repeat: -1, delay: Number(getArg('--delay') || 500), quality: 100 }))
+  .pipe(encoder.createWriteStream({ repeat: Number(getArg('--repeat') || 0), delay: Number(getArg('--delay') || 500), quality: Number(getArg('--quality') || 100) }))
   .pipe(fs.createWriteStream(getArg('--target')));
