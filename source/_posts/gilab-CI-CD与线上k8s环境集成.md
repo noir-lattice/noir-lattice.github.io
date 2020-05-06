@@ -1,5 +1,5 @@
 ---
-title: gilab CI/CD与线上k8s环境集成
+title: gitlab CI/CD与线上k8s环境集成
 tags:
   - CI/CD
   - kubernetes
