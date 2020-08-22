@@ -589,6 +589,11 @@ a {
 #scheme-Paradox .material-layout .mdl-card__actions:first-child {
     margin-left: 0
 }
+
+.code .meta {
+    padding: 0 !important;
+    display: contents !important;
+}
 #scheme-Paradox .material-layout .meta {
     display: flex;
     box-sizing: border-box;

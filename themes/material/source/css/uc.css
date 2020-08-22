@@ -34,6 +34,7 @@
 }
 
 #scheme-Paradox .material-layout .meta{
+  padding: 0;
   display: block !important;
 }
 
