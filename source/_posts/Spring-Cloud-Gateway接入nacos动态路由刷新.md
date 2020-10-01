@@ -9,7 +9,60 @@ categories: java
 ## 简介
 通常在Nacos接入了Spring Cloud的Gateway后还需自定义实现动态的路由配置来提供后续更为灵活的接口发布与维护，这里主要记录实现步骤。
 
-## 配置
+## 接入Nacos做naming
+ * 添加mvn依赖
+    ```xml
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-gateway</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    ```
+ * 添加配置
+    ```yaml
+    spring:
+      application:
+        name: gateway
+        main:
+          allow-bean-definition-overriding: true
+      cloud:
+          nacos:
+            config:
+              server-addr: localhost:8848
+              namespace: dev
+              #    bootstrap:
+              #      enable: true
+              data-id: hellorobot-gateway
+              type: yaml
+              auto-refresh: true
+            discovery:
+              namespace: dev
+              register:
+              service-name: gateway
+              server-addr: localhost:8848
+            gateway:
+              enabled: true
+              routes:
+                  - id: user
+                    uri: http://localhost:8002
+                    predicates:
+                        - Path=/api/user/**
+                    filters:
+                        - RewritePath=/api/user, /user/admin
+    ```
+
+## 动态更新配置文件
 指定路由配置文件，用于启动时创建Nacos Config文件监听  
 ```java
 @Data
