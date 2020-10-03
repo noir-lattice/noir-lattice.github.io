@@ -43,3 +43,14 @@ categories: 算法与数据结构
   * A -> B -> D -> C -> E
   ![s5](s_5.png)
   此时发现距离当前集合最近的是终点，结束寻路，获取最短距离。
+
+
+### 分析一下
+  整体Dijkstra感觉像是广度优先的变种，为了寻找最优不断的把扫描集合附件的点加入进来，整体的时间复杂度O(n^2)，可以预见的是n非常大而结果目标很远时整体的效率堪忧。
+
+  Leetcode相关题目：  
+  * [743.网络延迟时间](https://leetcode-cn.com/problems/network-delay-time/)  
+  * [778.水位上升的泳池中游泳](https://leetcode-cn.com/problems/swim-in-rising-water/)
+  * [407.接雨水 II](https://leetcode-cn.com/problems/trapping-rain-water-ii/)
+
+刷完咱们去玩A*，爷青回！！！( •̀ ω •́ )y
