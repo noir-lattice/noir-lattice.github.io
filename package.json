@@ -5,6 +5,7 @@
   "scripts": {
     "start": "hexo s",
     "clean": "hexo clean",
+    "deploy": "hexo d",
     "build": "npm run clean && hexo g",
     "push": "npm run build && cp ./google4b19cdbfba770829.html public && hexo d"
   },
