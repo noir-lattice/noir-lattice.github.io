@@ -65,7 +65,7 @@ TM和RM是seats-client都支持的角色，即可从任一服务发起全局事�
 
 AT是seata主创，相对于TCC对业务代码的侵入，Seata将JDBC的数据源进行代理从而通过各个服务的本地事务来进行自动的confime or cancel。
 
-![proxy](Proxy.png)
+![proxy](proxy.png)
 
 而通过代理数据层，可以实现所有的SQL事务的拦截与SQL的解析，从而记录下回滚日志（至undolog table）以备第二阶段的cancel使用，我们可以看看一个AT事务的生命周期：
 
