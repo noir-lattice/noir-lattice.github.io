@@ -63,7 +63,7 @@ TM和RM是seats-client都支持的角色，即可从任一服务发起全局事�
 
 ## AT的实现
 
-AT是seata主创，相对于TCC对业务代码的侵入，Seata将JDBC的数据源进行代理从而通过各个服务的本地事务来进行自动的confime or cancel。
+AT是seata主创，相对于TCC对业务代码的侵入，Seata将JDBC的数据源进行代理从而通过各个服务的本地事务来进行自动的confirm or cancel。
 
 ![proxy](Proxy.png)
 
