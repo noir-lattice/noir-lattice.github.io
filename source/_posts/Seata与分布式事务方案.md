@@ -65,7 +65,7 @@ TM和RM是seats-client都支持的角色，即可从任一服务发起全局事�
 
 AT是seata主创，相对于TCC对业务代码的侵入，Seata将JDBC的数据源进行代理从而通过各个服务的本地事务来进行自动的confirm or cancel。
 
-![proxy](Proxy.png)
+![proxy](proxy.png)
 
 而通过代理数据层，可以实现所有的SQL事务的拦截与SQL的解析，从而记录下回滚日志（至undolog table）以备第二阶段的cancel使用，我们可以看看一个AT事务的生命周期：
 
@@ -101,7 +101,7 @@ AT是seata主创，相对于TCC对业务代码的侵入，Seata将JDBC的数据�
 2. 选择使用更加可拓展的TCC实现。
 
 对于第二点，本身AT就是TCC的一种实现，只需要开放对应的接口即可，这里只需要对AT模式做基本的功能裁剪即可做到支持（当然Seata也是这么干的）：
-![tcc](TCC.png)
+![tcc](tcc.png)
 
 需要注意的是，裁剪后的TCC是不在GlobalLock上下文中的，你可以手动指定，也可以自己实现隔离（自己的分布式锁？）。
 
