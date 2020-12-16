@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.6 -->
+    <script>
+        window.materialVersion = "1.5.6"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0',
+            '1.5.2',
+            '1.5.5'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+
+
+
+
+
+
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            TCP/UDP总结与梳理 | 
+        
+        Noir的博客
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/logo.png">
+    <link rel="icon" href="/img/logo.png">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" itemprop="description" content="TCP也是老生常谈了，在四层协议栈中基本是必知必会，还拥有大量的八股文面试内容，本篇旨在思考与总结协议栈的相关知识，梳理一下加深一下理解，也希望能有更深入的理解，不是面向面试学习。">
+    <meta name="keywords" content=",TCP,UDP">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?7yUD/wxgDe3Kqz0nM7DMfQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","/css/material-icons.css?pqhB/Rd/ab0H2+kZp0RDmw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Noir的博客">
+    <meta name="msapplication-starturl" content="https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Noir的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/logo.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="TCP/UDP总结与梳理 | Noir的博客">
+    <meta property="og:image" content="/img/logo.png">
+    <meta property="og:description" content="TCP也是老生常谈了，在四层协议栈中基本是必知必会，还拥有大量的八股文面试内容，本篇旨在思考与总结协议栈的相关知识，梳理一下加深一下理解，也希望能有更深入的理解，不是面向面试学习。">
+    <meta property="og:article:tag" content="TCP"> <meta property="og:article:tag" content="UDP"> 
+
+    
+        <meta property="article:published_time" content="Sun Dec 06 2020 14:31:04 GMT+0800">
+        <meta property="article:modified_time" content="Wed Dec 09 2020 18:08:30 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/index.html",
+    "headline": "TCP/UDP总结与梳理",
+    "datePublished": "Sun Dec 06 2020 14:31:04 GMT+0800",
+    "dateModified": "Wed Dec 09 2020 18:08:30 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "noir",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "Freiheit als Autonomie"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Noir的博客",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/logo.png"
+        }
+    },
+    "keywords": ",TCP,UDP",
+    "description": "TCP也是老生常谈了，在四层协议栈中基本是必知必会，还拥有大量的八股文面试内容，本篇旨在思考与总结协议栈的相关知识，梳理一下加深一下理解，也希望能有更深入的理解，不是面向面试学习。",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#讲讲TCP"><span class="post-toc-number">1.</span> <span class="post-toc-text">讲讲TCP</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三次握手"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">三次握手</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关于次数的思考"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">关于次数的思考</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据传输"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">数据传输</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#如何调查链路上可以接受的包大小？"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">如何调查链路上可以接受的包大小？</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四次挥手"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">四次挥手</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#为什么第二次第三次不能合并呢？"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">为什么第二次第三次不能合并呢？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#为什么客户端有TIME-WAIT"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">为什么客户端有TIME WAIT</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#同时发起的关闭请求"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">同时发起的关闭请求</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP的性能问题"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">TCP的性能问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#讲讲UDP"><span class="post-toc-number">2.</span> <span class="post-toc-text">讲讲UDP</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8个字节的请求头"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">8个字节的请求头</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#流媒体"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">流媒体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DNS"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">DNS</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#QUIC"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">QUIC</span></a></li></ol></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                TCP/UDP总结与梳理
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>noir</strong>
+        <span>12月 06, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/TCP/">TCP</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/UDP/">UDP</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=TCP/UDP总结与梳理&url=https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/index.html&pic=https://noir-lattice.github.io/img/logo.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=TCP/UDP总结与梳理&url=https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/index.html&via=noir" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://noir-lattice.github.io/2020/12/06/TCP-UDP总结与梳理/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>TCP也是老生常谈了，在四层协议栈中基本是必知必会，还拥有大量的八股文面试内容，本篇旨在思考与总结协议栈的相关知识，梳理一下加深一下理解，也希望能有更深入的理解，不是面向面试学习。</p>
+ <a id="more"></a>
+
+
+
+<h2 id="讲讲TCP"><a href="#讲讲TCP" class="headerlink" title="讲讲TCP"></a>讲讲TCP</h2><p>应用层协议总是离不开TCP作为基础，面向连接为应用层协议屏蔽了更多的网络层的感知，那什么是「面向连接」？</p>
+<p><a href="https://tools.ietf.org/html/rfc793" target="_blank" rel="noopener">RFC 793 - Transmission Control Protocol</a></p>
+<p>第四页：</p>
+<blockquote>
+<p>Connections:</p>
+<p>   ​     The reliability and flow control mechanisms described above require<br>   ​     that TCPs initialize and maintain certain status information for<br>   ​     each data stream.  The combination of this information, including<br>   ​     sockets, sequence numbers, and window sizes, is called a connection.</p>
+</blockquote>
+<p>告诉我们连接用于保证可靠性和流控制机制的信息，包括了三个部分：</p>
+<pre><code>* Socket
+* 序列号
+* 窗口大小</code></pre><p>那么我们可以理解为对与一个连接来说，需要维护两端的上述三种信息共识：连接Socket用于标示基础信息：互联网地址标示、端口信息；窗口用来做流量控制；序列号用来追踪发送顺序与发送状态的确认。</p>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p>那如何建立这三种信息的基本共识呢？又回到了大家熟悉无比的三次握手：</p>
+<p><img src="basic-3-way-handshake.png" alt="basic-3-way-handshake"></p>
+<p>需要注意的是，这里说三次握手建立三种信息共识并不是说三次握手的主要目的是建立三种信息的共识，共识严格来说基于约定，要完全保证100%安全可靠的共识和这里说的共识不是一路货色，这里只是说这个基本共识在这三次握手的过程中达成了。</p>
+<p>那么就有了一些延伸的问题，为什么要三次握手才能实现共识？四次行不行？两次行不行？为了什么？</p>
+<p>相信大家但凡面试都躲不过这几个烂问题，求职者也是基于各路博客自身理解各显神通然后将这问题扣上一顶「八股文」的大帽打入冷宫不在思考，但是这样真的好么？</p>
+<h4 id="关于次数的思考"><a href="#关于次数的思考" class="headerlink" title="关于次数的思考"></a>关于次数的思考</h4><p>首先我们不考虑使用四次行不行这种问题，如果一个事情能用三次解决就必然可以用四次解决，同样也可以100次解决，只是效率低而已，我们不需要进行拓展的讨论。</p>
+<p>那么少点呢？用两次可以么？A告诉B自己的地址/序列号/窗口大小，B再告诉A自己的地址/序列号/窗口大小是不是就可以了呢？</p>
+<p>实际上，在完美的网络环境下（所有均可达/均有序）确实可以，但是网络总是充满了不确定性：</p>
+<p><img src="tcp-recovery-from-old-duplicate-syn.png" alt="tcp-recovery-from-old-duplicate-syn"></p>
+<p>只要网络状况不好，A发起重试，两个请求连接的数据包到B，B该如何处置？丢弃哪一个，如何分辨是不是因为网络超时而晚到的历史连接？</p>
+<p>所以便有了三次握手与RST控制消息，将连接的建立权移交给连接发起放，接受方将连接建立的序列号+1作为当前连接建立的回复序列号发送给发起方（SEQ）,发起方就可以根据SEQ反推出发起的连接是否超时，超时则回复RST释放资源，正常则ACK确认连接。你看，这下连序列号同步（SYN）也做了，自然就不需要第四次握手了。</p>
+<p>RFC中也是说明主要解决重复的历史连接问题：<br><a href="https://tools.ietf.org/html/rfc793" target="_blank" rel="noopener">RFC 793 - Transmission Control Protocol</a></p>
+<p>第31页：</p>
+<blockquote>
+<p>The principle reason for the three-way handshake is to prevent old<br>duplicate connection initiations from causing confusion.</p>
+</blockquote>
+<p>RFC中也有示意图，童鞋们自行采阅。</p>
+<h3 id="数据传输"><a href="#数据传输" class="headerlink" title="数据传输"></a>数据传输</h3><p>连接建立啦，自然要开始传输信息了，那么我们该如何传输数据呢？直接怼上去一个包搞定所有数据那肯定不行🙅，万一我这数据多咋整，链路上设备不支持给我包阉了咋整？所以我们在发送前，还要做好分包，做分包前还要知道当前链路支持我怎么分包，那么问题简化为一下三个步骤：</p>
+<ul>
+<li>调查链路上可以接受的包大小</li>
+<li>分析当前数据大小进行拆包</li>
+<li>发送数据包并填充序列号</li>
+<li>接收端获取数据包并回复ACK</li>
+<li>发送方获取ACK移动发送窗口or重发</li>
+</ul>
+<h4 id="如何调查链路上可以接受的包大小？"><a href="#如何调查链路上可以接受的包大小？" class="headerlink" title="如何调查链路上可以接受的包大小？"></a>如何调查链路上可以接受的包大小？</h4><p>这里有个「路径最大传输单元发现」（Path MTU Discovery，PMTUD）机制来确定两个主机间的最大传输单元（MTU）,工作原理如下：</p>
+<ol>
+<li>向目的主机发送 IP 头中 DF 控制位为 1 的数据包，DF 是不分片（Don’t Fragment，DF）的缩写</li>
+<li>路径上的网络设备根据数据包的大小和自己的 MTU 做出不同的决定：<ul>
+<li>如果数据包大于设备的 MTU，就会丢弃数据包并发回一个包含该设备 MTU 的 ICMP 消息；</li>
+<li>如果数据包小于设备的 MTU，就会继续向目的主机传递数据包；</li>
+</ul>
+</li>
+<li>源主机收到 ICMP 消息后，会不断使用新的 MTU 发送 IP 数据包，直到 IP 数据包达到目的主机</li>
+</ol>
+<p>这里有个问题需要注意，linux默认是开启该方式的，你可以通过修改配置关闭PMTUD配置，那么会在发真实数据的时候被中间链路的设备拒绝，然后再重新设置MTU进行重试。</p>
+<p>一般的路由设备的MTU是1500个字节，</p>
+<ul>
+<li>对于IP协议来说，要剪掉20个协议头的大小，那么通常的IP包就是1480个字节</li>
+<li>对于TCP协议来说，要剪掉20个IP协议头，20个TCP协议头，就是1460个字节</li>
+<li>对于UDP协议来说，要剪掉20个IP协议头，8个UDP协议头，就是1472个字节</li>
+</ul>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p>因为TCP是全双工，所以需要确定双方不在发送数据。</p>
+<ul>
+<li>第1次挥手由客户端向服务端发起，服务端收到信息后就能确定客户端已经停止发送数据。</li>
+<li>第2次挥手由服务端向客户端发起，客户端收到消息后就能确定服务端已经知道客户端不会再发送数据。</li>
+<li>第3次挥手由服务端向客户端发起，客户端收到消息后就能确定服务端已经停止发送数据。</li>
+<li>第4次挥手由客户端向服务端发起，服务端收到信息后就能确定客户端已经知道服务端不会再发送数据。</li>
+</ul>
+<p><a href="https://tools.ietf.org/html/rfc793" target="_blank" rel="noopener">RFC 793 - Transmission Control Protocol</a><br>第38页</p>
+<blockquote>
+<pre><code>TCP A                                                TCP B</code></pre><p> 1  ESTABLISHED                                          ESTABLISHED</p>
+<p> 2  (Close)<br>     FIN-WAIT-1  –&gt; &lt;SEQ=100&gt;&lt;ACK=300&gt;&lt;CTL=FIN,ACK&gt;  –&gt; CLOSE-WAIT</p>
+<p> 3  FIN-WAIT-2  &lt;– &lt;SEQ=300&gt;&lt;ACK=101&gt;&lt;CTL=ACK&gt;      &lt;– CLOSE-WAIT</p>
+<p> 4                                                       (Close)<br>     TIME-WAIT   &lt;– &lt;SEQ=300&gt;&lt;ACK=101&gt;&lt;CTL=FIN,ACK&gt;  &lt;– LAST-ACK</p>
+<p> 5  TIME-WAIT   –&gt; &lt;SEQ=101&gt;&lt;ACK=301&gt;&lt;CTL=ACK&gt;      –&gt; CLOSED</p>
+<p> 6  (2 MSL)<br>     CLOSED</p>
+</blockquote>
+<h4 id="为什么第二次第三次不能合并呢？"><a href="#为什么第二次第三次不能合并呢？" class="headerlink" title="为什么第二次第三次不能合并呢？"></a>为什么第二次第三次不能合并呢？</h4><p> 因为挥手由客户端发起，客户端通知服务端不发数据了，但是服务端可能还在发送数据会客户端，所以只能先确认收到，再等自己发送内容结束后再发送不在发送的通知。</p>
+<h4 id="为什么客户端有TIME-WAIT"><a href="#为什么客户端有TIME-WAIT" class="headerlink" title="为什么客户端有TIME WAIT"></a>为什么客户端有TIME WAIT</h4><ul>
+<li>第一，为了保证客户端发送的最后一个ACK 报文能够到达服务器。我们必须假设网络是不可靠的，ACK 报文可能丢失。如果服务端发出FIN 报文后没有收到ACK 报文，就会重发FIN 报文，此时处于TIME-WAIT状态的客户端就会重发ACK 报文。当然，客户端也不能无限久的等待这个可能存在的FIN 报文，因为如果服务端正常接收到了ACK 报文后是不会再发FIN 报文的。因此，客户端需要设置一个计时器，那么等待多久最合适呢？所谓的MSL（Maximum Segment Lifetime）指一个报文在网络中最大的存活时间，2MSL就是一个发送和一个回复所需的最大时间。如果直到2MSL时间后，客户端都没有再次收到FIN 报文，那么客户端推断ACK 报文已经被服务器成功接收，所以结束TCP 连接。</li>
+<li>第二，防止已失效的连接请求报文段出现在新的连接中。客户端在发送完最后一个ACK 报文后，再经过时间2MSL，就可以使由于网络不通畅产生的滞留报文段失效。这样下一个新的连接中就不会出现旧的连接请求报文。</li>
+</ul>
+<h4 id="同时发起的关闭请求"><a href="#同时发起的关闭请求" class="headerlink" title="同时发起的关闭请求"></a>同时发起的关闭请求</h4><p>  特殊的，客户端与服务端都传输完毕发起关闭请求也是存在的<br>  <a href="https://tools.ietf.org/html/rfc793" target="_blank" rel="noopener">RFC 793 - Transmission Control Protocol</a><br>第38页</p>
+<blockquote>
+<pre><code>TCP A                                                TCP B</code></pre><p> 1  ESTABLISHED                                          ESTABLISHED</p>
+<p> 2  (Close)                                              (Close)<br>     FIN-WAIT-1  –&gt; &lt;SEQ=100&gt;&lt;ACK=300&gt;&lt;CTL=FIN,ACK&gt;  … FIN-WAIT-1<br>                 &lt;– &lt;SEQ=300&gt;&lt;ACK=100&gt;&lt;CTL=FIN,ACK&gt;  &lt;–<br>                 … &lt;SEQ=100&gt;&lt;ACK=300&gt;&lt;CTL=FIN,ACK&gt;  –&gt;</p>
+<p> 3  CLOSING     –&gt; &lt;SEQ=101&gt;&lt;ACK=301&gt;&lt;CTL=ACK&gt;      … CLOSING<br>                 &lt;– &lt;SEQ=301&gt;&lt;ACK=101&gt;&lt;CTL=ACK&gt;      &lt;–<br>                 … &lt;SEQ=101&gt;&lt;ACK=301&gt;&lt;CTL=ACK&gt;      –&gt;</p>
+<p> 4  TIME-WAIT                                            TIME-WAIT<br>     (2 MSL)                                              (2 MSL)<br>     CLOSED                                               CLOSED</p>
+</blockquote>
+<h3 id="TCP的性能问题"><a href="#TCP的性能问题" class="headerlink" title="TCP的性能问题"></a>TCP的性能问题</h3><p>我们可以看到，RFC793都快四十年了，基础网络环境已经发生的翻天覆地的变化，所以自然的，TCP协议自然也带来的新能的问题，在网络发展的早期，包从发送到到达慢的主要原因来自与网络带宽的限制，是由于拥塞导致的，而TCP自然的就认为在包传输失败重传时将会采用拥塞阻塞的避免算法，详细的可以看<a href="https://noir-lattice.github.io/2020/05/16/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B8%8E%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP拥塞控制与滑动窗口</a>，这种就是明显的历史原因了。</p>
+<p>再者，TCP的三次握手与四次挥手也带来了不小的服务端与客户端的性能消耗，在维护状态机的同实Socket占用与资源释放缓慢。</p>
+<p>还有就是重试机制在极限网络环境下带来的负担，高时延导致的大量超时ACK在重试后获取，而重试的报文又占用了带宽使网络环境更差。</p>
+<p>总结一下，TCP存在性能问题主要体现在以下几个点：</p>
+<ul>
+<li>拥塞避免会自动降低吞吐</li>
+<li>握手与挥手带来的性能损耗</li>
+<li>重试导致的带宽负担</li>
+</ul>
+<h2 id="讲讲UDP"><a href="#讲讲UDP" class="headerlink" title="讲讲UDP"></a>讲讲UDP</h2><p>UDP 协议一般作为流媒体应用、语音交流、视频会议所使用的传输层协议，我们大家都知道的 DNS 协议底层也使用了 UDP 协议(这个说法不严谨，TCP也是有用的)，这些应用或协议之所以选择 UDP 主要是因为以下这几点：</p>
+<ul>
+<li>速度快:<br>这里主要相对于TCP的拥塞控制而言，对于现今的网络环境，丢包是很常见的，不存在拥塞控制会加速基础的网络报文交互。</li>
+<li>无连接：<br>不需要三次握手，不需要三次挥手，无连接可以减少很多前置的性能损耗</li>
+<li>无状态<br>没有连接状态，不用维护状态机，且不需要确认与重传</li>
+<li>头部小<br>这个在上面有说过，因为不需要很多的状态机维护，所以可以省略很多标志位与头部信息，只需要基础的目标与来源信息，使UDP头仅仅需要占用8个字节</li>
+</ul>
+<h3 id="8个字节的请求头"><a href="#8个字节的请求头" class="headerlink" title="8个字节的请求头"></a>8个字节的请求头</h3><p>有4个信息，每个都是2个字节，分别是：</p>
+<ul>
+<li>源端口</li>
+<li>目的端口</li>
+<li>长度</li>
+<li>校验码<br>特殊的，源端口是可选字段，校验码也可以置为0，而长度虽然占了两个字节，但是一般受限于MTU，指定不指定意义不大，所以真正有意义且必选的就只有目的端口了（那为啥不简化更轻？）</li>
+</ul>
+<h3 id="流媒体"><a href="#流媒体" class="headerlink" title="流媒体"></a>流媒体</h3><p>为什么流媒体应用更加倾向于UDP？一则是流媒体的时效性要求使得重传重放与连接状态并不重要，一则是更小的头部可以提供更大的包体加速整体吞吐。</p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>在早期域名少，内容压力不大的时候DNS基本由DNS支持，但因为后续互联网的发展，UDP受MTU的限制，TCP成为的UDP的兜底方案，即使用UDP发送失败（MTU限制）后启用TCP进行信息传输。</p>
+<h3 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h3><p>google quic也是UDP实现，这个单独启一篇，且听下回分解。</p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2020/12/07/Seata与分布式事务方案/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2020/10/20/面向对象设计原则/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="noir's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        noir-lattice@outlook.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2020/12/">十二月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/08/">八月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/07/">七月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/06/">六月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/10/">十月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/09/">九月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/devops/">devops<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/java/">java<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/kubernetes/">kubernetes<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/中间件/">中间件<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/杂谈/">杂谈<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/架构/">架构<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法与数据结构/">算法与数据结构<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/缓存中间件/">缓存中间件<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/网络/">网络<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/踩坑记录/">踩坑记录<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/面试/">面试<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">29</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+<!-- 
+    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+            主题 - Material
+            <span class="sidebar-badge badge-circle">i</span>
+        </div>
+    </a>
+ -->
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/noir-lattice" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+        <a href="https://space.bilibili.com/2006225" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-bilibili">
+                <span class="visuallyhidden">Bilibili</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Telegram -->
+    
+
+    <!-- V2EX -->
+    
+
+    <!-- Segmentfault -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;<span year></span>&nbsp;Noir的博客
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?Bn9UzEm8RrBSxqyZB0zPjA==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    var copyrightNow = new Date().getFullYear();
+    var textContent = document.querySelector('span[year]')
+
+    copyrightSince = 0000;
+    if (copyrightSince === copyrightNow||copyrightSince === 0000) {
+        textContent.textContent = copyrightNow
+    } else {
+        textContent.textContent = copyrightSince + ' - ' + copyrightNow
+    }
+
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.6 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+    <link  href="/css/viewer.min.css" rel="stylesheet">
+    <script src="/js/viewer.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        //默认设置， 可以根据个人需求和喜好进行配置
+        //详细参考官方说明
+        Viewer.setDefaults({
+            //设置初始缩放 default: 1
+            zoomRatio : [0.5],
+            //设置滚轮缩放比率 default: 0.1
+            show: function () {
+              this.viewer.zoomTo(0.5);
+            },
+          });
+        //获得content中所有的图片， 不同主题可能有所不同
+        //为了和其他的图片区别开来 所以在markdown中插入图片的时候使用独特的记号
+        var imageList = document.getElementsByTagName("img");
+        //将获取到的HTMLCollections转化成Array
+        var imageArray = new Array();
+        Array.prototype.forEach.call(imageList, element => {
+          imageArray.push(element);
+        });
+        //设置每个图片成为图片组
+        Array.prototype.forEach.call(imageList, element => {
+          var viewer1 = new Viewer(element);
+          viewer1.images = imageArray;
+          viewer1.length = imageArray.length;
+        });
+    </script>
+</html>

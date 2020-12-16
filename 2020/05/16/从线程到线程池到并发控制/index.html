@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.6 -->
+    <script>
+        window.materialVersion = "1.5.6"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0',
+            '1.5.2',
+            '1.5.5'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+
+
+
+
+
+
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            从线程到线程池到锁 | 
+        
+        Noir的博客
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/logo.png">
+    <link rel="icon" href="/img/logo.png">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" itemprop="description" content="今天也要好好加油鸭！！！">
+    <meta name="keywords" content=",多线程,锁">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?7yUD/wxgDe3Kqz0nM7DMfQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","/css/material-icons.css?pqhB/Rd/ab0H2+kZp0RDmw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Noir的博客">
+    <meta name="msapplication-starturl" content="https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Noir的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/logo.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="从线程到线程池到锁 | Noir的博客">
+    <meta property="og:image" content="/img/logo.png">
+    <meta property="og:description" content="今天也要好好加油鸭！！！">
+    <meta property="og:article:tag" content="多线程"> <meta property="og:article:tag" content="锁"> 
+
+    
+        <meta property="article:published_time" content="Sat May 16 2020 15:53:45 GMT+0800">
+        <meta property="article:modified_time" content="Sun Dec 06 2020 14:15:13 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/index.html",
+    "headline": "从线程到线程池到锁",
+    "datePublished": "Sat May 16 2020 15:53:45 GMT+0800",
+    "dateModified": "Sun Dec 06 2020 14:15:13 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "noir",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "Freiheit als Autonomie"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Noir的博客",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/logo.png"
+        }
+    },
+    "keywords": ",多线程,锁",
+    "description": "今天也要好好加油鸭！！！",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#序言"><span class="post-toc-number">1.</span> <span class="post-toc-text">序言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#特点"><span class="post-toc-number">2.</span> <span class="post-toc-text">特点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建一个Java多线程"><span class="post-toc-number">3.</span> <span class="post-toc-text">创建一个Java多线程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#继承Thread类"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">继承Thread类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现Runnable接口进行创建"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">实现Runnable接口进行创建</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过实现Callable和Future接口进行创建"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">通过实现Callable和Future接口进行创建</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用线程池"><span class="post-toc-number">4.</span> <span class="post-toc-text">使用线程池</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#说说线程池的原理"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">说说线程池的原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ThreadPoolExecutor"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">ThreadPoolExecutor</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自带的几种线程池"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">自带的几种线程池</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#单一线程的线程池"><span class="post-toc-number">4.3.1.</span> <span class="post-toc-text">单一线程的线程池</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#固定数量的线程池"><span class="post-toc-number">4.3.2.</span> <span class="post-toc-text">固定数量的线程池</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#带缓存的线程池"><span class="post-toc-number">4.3.3.</span> <span class="post-toc-text">带缓存的线程池</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定时调度的线程池"><span class="post-toc-number">4.3.4.</span> <span class="post-toc-text">定时调度的线程池</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#等待队列"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">等待队列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程工厂"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">线程工厂</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#拒绝策略"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">拒绝策略</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#提交任务"><span class="post-toc-number">4.7.</span> <span class="post-toc-text">提交任务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关闭线程池"><span class="post-toc-number">4.8.</span> <span class="post-toc-text">关闭线程池</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正确的配置线程池参数"><span class="post-toc-number">4.9.</span> <span class="post-toc-text">正确的配置线程池参数</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#锁"><span class="post-toc-number">5.</span> <span class="post-toc-text">锁</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronized和Lock有什么区别？"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">synchronized和Lock有什么区别？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronized锁的底层实现"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">synchronized锁的底层实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#锁升级"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">锁升级</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#无锁"><span class="post-toc-number">5.3.1.</span> <span class="post-toc-text">无锁</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#偏向锁"><span class="post-toc-number">5.3.2.</span> <span class="post-toc-text">偏向锁</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#轻量级锁"><span class="post-toc-number">5.3.3.</span> <span class="post-toc-text">轻量级锁</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#重量级锁"><span class="post-toc-number">5.3.4.</span> <span class="post-toc-text">重量级锁</span></a></li></ol></li></ol></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                从线程到线程池到锁
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>noir</strong>
+        <span>5月 16, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/多线程/">多线程</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/锁/">锁</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=从线程到线程池到锁&url=https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/index.html&pic=https://noir-lattice.github.io/img/logo.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=从线程到线程池到锁&url=https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/index.html&via=noir" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://noir-lattice.github.io/2020/05/16/从线程到线程池到并发控制/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>要解释线程，就必须明白什么是进程，那什么是进程呢？如果学过操作系统的同学应该知道：<br>进程是指运行中的应用程序，每个进程都有自己<strong>独立的地址空间(内存空间)</strong>，比如用户点击桌面的IE浏览器，就启动了一个进程，操作系统就会为该进程分配独立的地址空间。当用户再次点击左面的IE浏览器，又启动了一个进程，操作系统将为新的进程分配新的独立的地址空间。目前操作系统都支持多进程。</p>
+<blockquote>
+<p>用户每启动一个进程，操作系统就会为该进程分配一个独立的内存空间。请注意是独立的内存空间。  </p>
+</blockquote>
+<p>在明白进程后，就比较容易理解线程的概念。<br>线程是进程中的一个实体，是被<strong>系统独立调度和分派的基本单位</strong>，线程自己不拥有系统资源，只拥有一点在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。线程有就绪、阻塞和运行三种基本状态。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>这里主要讲的是Java中的线程：</p>
+<ul>
+<li>线程是轻量级进程</li>
+<li>没有独立的地址空间</li>
+<li>一个进程可以有多个线程</li>
+</ul>
+<p>而Java中的线程有五个状态：</p>
+<ol>
+<li>新建状态(new)</li>
+<li>就绪状态(Runnable)</li>
+<li>运行状态(Running)</li>
+<li>阻塞状态(Blocked)</li>
+<li>死亡状态(Dead)</li>
+</ol>
+<h2 id="创建一个Java多线程"><a href="#创建一个Java多线程" class="headerlink" title="创建一个Java多线程"></a>创建一个Java多线程</h2><p>创建Java多线程有三种方式：</p>
+<h3 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承Thread类</h3><p>简单写个代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>;j &lt; <span class="number">50</span>;j++) &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//调用Thread类的currentThread()方法获取当前线程</span></span><br><span class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">" "</span> + j);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span>(j == <span class="number">10</span>) &#123;</span><br><span class="line">				<span class="comment">//创建并启动第一个线程</span></span><br><span class="line">				<span class="keyword">new</span> ExtendThread().start();</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//创建并启动第二个线程</span></span><br><span class="line">				<span class="keyword">new</span> ExtendThread().start();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(;i &lt; <span class="number">100</span>;i++) &#123;</span><br><span class="line">			<span class="comment">//当通过继承Thread类的方式实现多线程时，可以直接使用this获取当前执行的线程</span></span><br><span class="line">			System.out.println(<span class="keyword">this</span>.getName() + <span class="string">" "</span>  + i);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意哦，启动要用start，run只是个普通的方法。</p>
+<h3 id="实现Runnable接口进行创建"><a href="#实现Runnable接口进行创建" class="headerlink" title="实现Runnable接口进行创建"></a>实现Runnable接口进行创建</h3><p>代码实现:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImpRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span>  </span><br><span class="line">	<span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(;i &lt; <span class="number">50</span>;i++) &#123;	</span><br><span class="line">			<span class="comment">//当线程类实现Runnable接口时，要获取当前线程对象只有通过Thread.currentThread()获取</span></span><br><span class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">" "</span> + i);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>;j &lt; <span class="number">30</span>;j++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">" "</span> + j);</span><br><span class="line">			<span class="keyword">if</span>(j == <span class="number">10</span>) &#123;</span><br><span class="line">				ImpRunnable thread_target = <span class="keyword">new</span> ImpRunnable();</span><br><span class="line">				<span class="comment">//通过new Thread(target,name)的方式创建线程</span></span><br><span class="line">				<span class="keyword">new</span> Thread(thread_target,<span class="string">"线程1"</span>).start();</span><br><span class="line">				<span class="keyword">new</span> Thread(thread_target,<span class="string">"线程2"</span>).start();</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于本身已经有继承关系的类来说这种方式更加合适。</p>
+<h3 id="通过实现Callable和Future接口进行创建"><a href="#通过实现Callable和Future接口进行创建" class="headerlink" title="通过实现Callable和Future接口进行创建"></a>通过实现Callable和Future接口进行创建</h3><p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThirdThreadImp</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//这里call()方法的重写是采用lambda表达式，没有新建一个Callable接口的实现类</span></span><br><span class="line">		FutureTask&lt;Integer&gt; task =  <span class="keyword">new</span> FutureTask&lt;Integer&gt;((Callable&lt;Integer&gt;)()-&gt;&#123;</span><br><span class="line">			<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">for</span>(;i &lt; <span class="number">50</span>;i++) &#123;</span><br><span class="line">				System.out.println(Thread.currentThread().getName() + </span><br><span class="line">						<span class="string">"  的线程执行体内的循环变量i的值为："</span> + i);	</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//call()方法的返回值</span></span><br><span class="line">			<span class="keyword">return</span> i;</span><br><span class="line">		&#125;);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>;j &lt; <span class="number">50</span>;j++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName() + </span><br><span class="line">					<span class="string">" 大循环的循环变量j的值为："</span> + j);</span><br><span class="line">			<span class="keyword">if</span>(j == <span class="number">20</span>) &#123;</span><br><span class="line">				<span class="keyword">new</span> Thread(task,<span class="string">"有返回值的线程"</span>).start();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"子线程的返回值："</span> + task.get());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>特别的，可以通过future对象获取一个线程的返回结果。</p>
+<h2 id="使用线程池"><a href="#使用线程池" class="headerlink" title="使用线程池"></a>使用线程池</h2><p>我们为什么要用线程池呢？</p>
+<ul>
+<li>降低资源的消耗。线程本身是一种资源，创建和销毁线程会有CPU开销；创建的线程也会占用一定的内存。</li>
+<li>提高任务执行的响应速度。任务执行时，可以不必等到线程创建完之后再执行。</li>
+<li>提高线程的可管理性。线程不能无限制地创建，需要进行统一的分配、调优和监控。<ul>
+<li>每一个独立的线程都会吃掉1M内存</li>
+</ul>
+</li>
+</ul>
+<h3 id="说说线程池的原理"><a href="#说说线程池的原理" class="headerlink" title="说说线程池的原理"></a>说说线程池的原理</h3><p>线程池的核心ThreadPoolExecutor的处理流程如下：<br><img src="ThreadPoolExecutor.jpg" alt="ThreadPoolExecutor"></p>
+<ol>
+<li>判断核心线程池是否已满，如果不是，则创建线程执行任务</li>
+<li>如果核心线程池满了，判断队列是否满了，如果队列没满，将任务放在队列中</li>
+<li>如果队列满了，则判断线程池是否已满，如果没满，创建线程执行任务</li>
+<li>如果线程池也满了，则按照拒绝策略对任务进行处理</li>
+</ol>
+<h3 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h3><p>我们来细看下ThreadPoolExecutor的构造</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                          TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                          BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                          ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                          RejectedExecutionHandler handler)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>一共有7个参数，我们来逐个分析一下：</p>
+<ol>
+<li>corePoolSize： 线程池中的核心线程数<ol start="2">
+<li>maximumPoolSize： 线程池中的最大线程数</li>
+<li>keepAliveTime： 空闲时间，当线程池数量超过核心线程数时，多余的空闲线程存活的时间，即：这些线程多久被销毁</li>
+<li>unit： 空闲时间的单位，可以是毫秒、秒、分钟、小时和天，等等</li>
+<li>workQueue： 等待队列，线程池中的线程数超过核心线程数时，任务将放在等待队列，它是一个BlockingQueue类型的对象</li>
+<li>threadFactory： 线程工厂，我们可以使用它来创建一个线程</li>
+<li>handler： 拒绝策略，当线程池和等待队列都满了之后，需要通过该对象的回调函数进行回调处理</li>
+</ol>
+</li>
+</ol>
+<h3 id="自带的几种线程池"><a href="#自带的几种线程池" class="headerlink" title="自带的几种线程池"></a>自带的几种线程池</h3><p>我们来看看Executors这个线程池工厂：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建单一线程的线程池</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 创建固定数量的线程池</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span></span>;</span><br><span class="line"><span class="comment">// 创建带缓存的线程池</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 创建定时调度的线程池</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="title">newScheduledThreadPool</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span></span>;</span><br><span class="line"><span class="comment">// 创建流式（fork-join）线程池</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newWorkStealingPool</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="单一线程的线程池"><a href="#单一线程的线程池" class="headerlink" title="单一线程的线程池"></a>单一线程的线程池</h4><p>这个线程池只有一个线程。若多个任务被提交到此线程池，那么会被缓存到队列（队列是无界队列）。当线程空闲的时候，按照FIFO的方式进行处理。</p>
+<ul>
+<li>它是一种固定大小的线程池；</li>
+<li>corePoolSize和maximunPoolSize都为1；</li>
+<li>keepAliveTime为0，意味着一旦有多余的空闲线程，就会被立即停止掉，但是由于队列无界，所以这里keepAliveTime无效。</li>
+<li>阻塞队列采用了LinkedBlockingQueue，它是一个无界队列；</li>
+<li>由于阻塞队列是一个无界队列，因此永远不可能拒绝任务；</li>
+<li>由于采用了无界队列，实际线程数量将永远维持在nThreads，因此maximumPoolSize和keepAliveTime将无效。</li>
+</ul>
+<h4 id="固定数量的线程池"><a href="#固定数量的线程池" class="headerlink" title="固定数量的线程池"></a>固定数量的线程池</h4><p>和创建<strong>单一线程的线程池</strong>类似（只是把corePoolSize和maximunPoolSize都设置为n了而已），只是这儿可以并行处理任务的线程数更多一些罢了。</p>
+<h4 id="带缓存的线程池"><a href="#带缓存的线程池" class="headerlink" title="带缓存的线程池"></a>带缓存的线程池</h4><p>这种方式创建的线程池，核心线程池的长度为0，线程池最大长度为Integer.MAX_VALUE（无界线程池）。由于本身使用SynchronousQueue作为等待队列的缘故，导致往队列里面每插入一个元素，必须等待另一个线程从这个队列删除一个元素。适合大量低耗时的操作。</p>
+<ul>
+<li>它是一个可以无限扩大的线程池；</li>
+<li>它比较适合处理执行时间比较小的任务；</li>
+<li>corePoolSize为0，maximumPoolSize为无限大，意味着线程数量可以无限大；</li>
+<li>keepAliveTime为60S，意味着线程空闲时间超过60S就会被杀死；</li>
+<li>采用SynchronousQueue装等待的任务，这个阻塞队列没有存储空间，这意味着只要有请求到来，就必须要找到一条工作线程处理他，如果当前没有空闲的线程，那么就会再创建一条新的线程。</li>
+</ul>
+<h4 id="定时调度的线程池"><a href="#定时调度的线程池" class="headerlink" title="定时调度的线程池"></a>定时调度的线程池</h4><p>和上面3个工厂方法返回的线程池类型有所不同，它返回的是ScheduledThreadPoolExecutor类型的线程池。平时我们实现定时调度功能的时候，可能更多的是使用第三方类库，比如：quartz等。但是对于更底层的功能，我们仍然需要了解。</p>
+<p>我们写一个例子来看看如何使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ScheduledExecutorService executor = Executors.newScheduledThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定时调度，每个调度任务会至少等待`period`的时间，</span></span><br><span class="line">        <span class="comment">// 如果任务执行的时间超过`period`，则等待的时间为任务执行的时间</span></span><br><span class="line">        executor.scheduleAtFixedRate(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">                System.out.println(System.currentTimeMillis() / <span class="number">1000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">0</span>, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定时调度，第二个任务执行的时间 = 第一个任务执行时间 + `delay`</span></span><br><span class="line">        executor.scheduleWithFixedDelay(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">                System.out.println(System.currentTimeMillis() / <span class="number">1000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">0</span>, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定时调度，延迟`delay`后执行，且只执行一次</span></span><br><span class="line">        executor.schedule(() -&gt; System.out.println(<span class="string">"5 秒之后执行 schedule"</span>), <span class="number">5</span>, TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="等待队列"><a href="#等待队列" class="headerlink" title="等待队列"></a>等待队列</h3><p>等待队列是BlockingQueue类型的，理论上只要是它的子类，我们都可以用来作为等待队列。</p>
+<p>自带的阻塞队列有4种：</p>
+<ol>
+<li>ArrayBlockingQueue，队列是有界的，基于数组实现的阻塞队列</li>
+<li>LinkedBlockingQueue，队列可以有界，也可以无界。基于链表实现的阻塞队列</li>
+<li>SynchronousQueue，不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作将一直处于阻塞状态。</li>
+<li>PriorityBlockingQueue，带优先级的无界阻塞队列</li>
+</ol>
+<h3 id="线程工厂"><a href="#线程工厂" class="headerlink" title="线程工厂"></a>线程工厂</h3><p>ThreadFactory是一个接口，只有一个方法。既然是线程工厂，那么我们就可以用它生产一个线程对象。来看看这个接口的定义。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ThreadFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructs a new &#123;<span class="doctag">@code</span> Thread&#125;.  Implementations may also initialize</span></span><br><span class="line"><span class="comment">     * priority, name, daemon status, &#123;<span class="doctag">@code</span> ThreadGroup&#125;, etc.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> r a runnable to be executed by new thread instance</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> constructed thread, or &#123;<span class="doctag">@code</span> null&#125; if the request to</span></span><br><span class="line"><span class="comment">     *         create a thread is rejected</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Thread <span class="title">newThread</span><span class="params">(Runnable r)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看看Executors的DefaultThreadFactory</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicInteger poolNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ThreadGroup group;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger threadNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String namePrefix;</span><br><span class="line"></span><br><span class="line">    DefaultThreadFactory() &#123;</span><br><span class="line">        SecurityManager s = System.getSecurityManager();</span><br><span class="line">        group = (s != <span class="keyword">null</span>) ? s.getThreadGroup() :</span><br><span class="line">                              Thread.currentThread().getThreadGroup();</span><br><span class="line">        namePrefix = <span class="string">"pool-"</span> +</span><br><span class="line">                      poolNumber.getAndIncrement() +</span><br><span class="line">                     <span class="string">"-thread-"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">        Thread t = <span class="keyword">new</span> Thread(group, r,</span><br><span class="line">                              namePrefix + threadNumber.getAndIncrement(),</span><br><span class="line">                              <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (t.isDaemon())</span><br><span class="line">            t.setDaemon(<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">if</span> (t.getPriority() != Thread.NORM_PRIORITY)</span><br><span class="line">            t.setPriority(Thread.NORM_PRIORITY);</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现名称pool-{poolNum}-thread-{threadNum}。</p>
+<h3 id="拒绝策略"><a href="#拒绝策略" class="headerlink" title="拒绝策略"></a>拒绝策略</h3><p>自带的4种策略：</p>
+<ol>
+<li>CallerRunsPolicy： 在调用者线程执行</li>
+<li>AbortPolicy：直接抛出RejectedExecutionException异常</li>
+<li>DiscardPolicy：任务直接丢弃，不做任何处理</li>
+<li>DiscardOldestPolicy：丢弃队列里最旧的那个任务，再尝试执行当前任务</li>
+</ol>
+<p>这四种策略各有优劣，比较常用的是DiscardPolicy，但是这种策略有一个弊端就是任务执行的轨迹不会被记录下来。所以，我们往往需要实现自定义的拒绝策略， 通过实现RejectedExecutionHandler接口的方式。</p>
+<h3 id="提交任务"><a href="#提交任务" class="headerlink" title="提交任务"></a>提交任务</h3><p>提交任务有两个方法，execute()和submit(),区别在于execute提交不需要返回结果的任务，而submit提交返回结果任务（返回future）。</p>
+<h3 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h3><p>在线程池使用完成之后，我们需要对线程池中的资源进行释放操作，这就涉及到关闭功能。我们可以调用线程池对象的shutdown()和shutdownNow()方法来关闭线程池。</p>
+<ul>
+<li>shutdown()会将线程池状态置为SHUTDOWN，不再接受新的任务，同时会等待线程池中已有的任务执行完成再结束。</li>
+<li>shutdownNow()会将线程池状态置为SHUTDOWN，对所有线程执行interrupt()操作，清空队列，并将队列中的任务返回回来。</li>
+</ul>
+<h3 id="正确的配置线程池参数"><a href="#正确的配置线程池参数" class="headerlink" title="正确的配置线程池参数"></a>正确的配置线程池参数</h3><p> 说是参数，主要还是指线程池的大小了，建议按照CPU的核数来进行配置，如果是I/O密集可以考虑两倍于CPU数的大小。<br> 另外的，可以通过Runtime.getRuntime().availableProcessors()来获取CPU的个数。</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>说到锁就不得不提synchronized和Lock，先来一道面试题：</p>
+<h3 id="synchronized和Lock有什么区别？"><a href="#synchronized和Lock有什么区别？" class="headerlink" title="synchronized和Lock有什么区别？"></a>synchronized和Lock有什么区别？</h3><ul>
+<li>synchronized是关键字，Lock是接口<ul>
+<li>synchronized在代码块结束后释放锁，而Lock需要手动释放</li>
+<li>Lock可以设置超时，不用一直等待</li>
+<li>Lock的锁状态可以判断</li>
+<li>synchronized 非公平，不可中断，而Lock可公平也可以不公平</li>
+<li>synchronized 悲观，而Lock是CAS乐观锁</li>
+</ul>
+</li>
+</ul>
+<p>我们不深入讲Lock了，毕竟是后妈生的，我们深入讲讲synchronized。</p>
+<h3 id="synchronized锁的底层实现"><a href="#synchronized锁的底层实现" class="headerlink" title="synchronized锁的底层实现"></a>synchronized锁的底层实现</h3><p>我们知道，对象创建后都在我们的堆里，并且对象的内存布局可以分为三个部分：对象头、实例数据、对齐填充，而synchronized就是实现在对象头。</p>
+<p>而synchronized又根据锁等级的不同在对象头中有不同的标记方式，我们称作Mark Word:<br><img src="markWord.png" alt="markWord"></p>
+<h3 id="锁升级"><a href="#锁升级" class="headerlink" title="锁升级"></a>锁升级</h3><p>对象共有4种状态的锁标志：</p>
+<h4 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h4><p>被逃逸分析优化掉，认为这块代码安全，之后怎们样都是这个状态，或者说所有线程的对像已经出了安全区。</p>
+<h4 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h4><p>偏向锁是指当一段同步代码一直被同一个线程所访问时，即不存在多个线程的竞争时，那么该线程在后续访问时便会自动获得锁，从而降低获取锁带来的消耗，即提高性能。</p>
+<p>当一个线程访问同步代码块并获取锁时，会在 Mark Word 里存储锁偏向的线程 ID。在线程进入和退出同步块时不再通过 CAS 操作来加锁和解锁，而是检测 Mark Word 里是否存储着指向当前线程的偏向锁。轻量级锁的获取及释放依赖多次 CAS 原子指令，而偏向锁只需要在置换 ThreadID 的时候依赖一次 CAS 原子指令即可。</p>
+<p>偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，线程是不会主动释放偏向锁的。</p>
+<p>关于偏向锁的撤销，需要等待全局安全点，即在某个时间点上没有字节码正在执行时，它会先暂停拥有偏向锁的线程，然后判断锁对象是否处于被锁定状态。如果线程不处于活动状态，则将对象头设置成无锁状态，并撤销偏向锁，恢复到无锁（标志位为01）或轻量级锁（标志位为00）的状态。</p>
+<h4 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h4><p>当锁是偏向锁的时候，却被另外的线程所访问，此时偏向锁就会升级为轻量级锁。<br>轻量级锁是通过线程自旋来实现的，线程不会阻塞，从而提高性能，而对于自旋成功比较频繁的线程，会提高最高自旋的次数，这叫适应自旋锁。</p>
+<p>而当一个线程自旋到限制次数时，就会升级为重量级锁。<br>或者当第三个线程来竞争资源时，同样也会升级为重量级锁。</p>
+<h4 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h4><p>为什么重？ 因为重量级锁依赖的是对象监视器（monitor）实现，而其中 monitor 的本质是依赖于底层操作系统的 Mutex Lock 实现，每次调用都是一次systeam call，需要从用户态切换到内核态，成本非常高。</p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2020/05/16/用docker启动一个rabbitmq集群/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2020/05/16/Spring-常见面试题/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="noir's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        noir-lattice@outlook.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2020/12/">十二月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/08/">八月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/07/">七月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/06/">六月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/10/">十月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/09/">九月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/devops/">devops<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/java/">java<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/kubernetes/">kubernetes<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/中间件/">中间件<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/杂谈/">杂谈<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/架构/">架构<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法与数据结构/">算法与数据结构<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/缓存中间件/">缓存中间件<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/网络/">网络<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/踩坑记录/">踩坑记录<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/面试/">面试<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">29</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+<!-- 
+    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+            主题 - Material
+            <span class="sidebar-badge badge-circle">i</span>
+        </div>
+    </a>
+ -->
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/noir-lattice" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+        <a href="https://space.bilibili.com/2006225" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-bilibili">
+                <span class="visuallyhidden">Bilibili</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Telegram -->
+    
+
+    <!-- V2EX -->
+    
+
+    <!-- Segmentfault -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;<span year></span>&nbsp;Noir的博客
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?Bn9UzEm8RrBSxqyZB0zPjA==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    var copyrightNow = new Date().getFullYear();
+    var textContent = document.querySelector('span[year]')
+
+    copyrightSince = 0000;
+    if (copyrightSince === copyrightNow||copyrightSince === 0000) {
+        textContent.textContent = copyrightNow
+    } else {
+        textContent.textContent = copyrightSince + ' - ' + copyrightNow
+    }
+
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.6 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+    <link  href="/css/viewer.min.css" rel="stylesheet">
+    <script src="/js/viewer.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        //默认设置， 可以根据个人需求和喜好进行配置
+        //详细参考官方说明
+        Viewer.setDefaults({
+            //设置初始缩放 default: 1
+            zoomRatio : [0.5],
+            //设置滚轮缩放比率 default: 0.1
+            show: function () {
+              this.viewer.zoomTo(0.5);
+            },
+          });
+        //获得content中所有的图片， 不同主题可能有所不同
+        //为了和其他的图片区别开来 所以在markdown中插入图片的时候使用独特的记号
+        var imageList = document.getElementsByTagName("img");
+        //将获取到的HTMLCollections转化成Array
+        var imageArray = new Array();
+        Array.prototype.forEach.call(imageList, element => {
+          imageArray.push(element);
+        });
+        //设置每个图片成为图片组
+        Array.prototype.forEach.call(imageList, element => {
+          var viewer1 = new Viewer(element);
+          viewer1.images = imageArray;
+          viewer1.length = imageArray.length;
+        });
+    </script>
+</html>

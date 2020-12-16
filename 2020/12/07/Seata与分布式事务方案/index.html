@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.6 -->
+    <script>
+        window.materialVersion = "1.5.6"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0',
+            '1.5.2',
+            '1.5.5'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+
+
+
+
+
+
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            Seata与分布式事务方案 | 
+        
+        Noir的博客
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/logo.png">
+    <link rel="icon" href="/img/logo.png">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" itemprop="description" content="对于分布式事务的基础理论已经有启过一篇聊聊分布式事务，这一篇主要将工业实践，从主流的中间件入手，掰开聊聊分布式事务框架。">
+    <meta name="keywords" content=",分布式事务">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?7yUD/wxgDe3Kqz0nM7DMfQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","/css/material-icons.css?pqhB/Rd/ab0H2+kZp0RDmw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Noir的博客">
+    <meta name="msapplication-starturl" content="https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Noir的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/logo.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Seata与分布式事务方案 | Noir的博客">
+    <meta property="og:image" content="/img/logo.png">
+    <meta property="og:description" content="对于分布式事务的基础理论已经有启过一篇聊聊分布式事务，这一篇主要将工业实践，从主流的中间件入手，掰开聊聊分布式事务框架。">
+    <meta property="og:article:tag" content="分布式事务"> 
+
+    
+        <meta property="article:published_time" content="Mon Dec 07 2020 19:07:01 GMT+0800">
+        <meta property="article:modified_time" content="Sun Dec 13 2020 17:04:17 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/index.html",
+    "headline": "Seata与分布式事务方案",
+    "datePublished": "Mon Dec 07 2020 19:07:01 GMT+0800",
+    "dateModified": "Sun Dec 13 2020 17:04:17 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "noir",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "Freiheit als Autonomie"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Noir的博客",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/logo.png"
+        }
+    },
+    "keywords": ",分布式事务",
+    "description": "对于分布式事务的基础理论已经有启过一篇聊聊分布式事务，这一篇主要将工业实践，从主流的中间件入手，掰开聊聊分布式事务框架。",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#背景"><span class="post-toc-number">1.</span> <span class="post-toc-text">背景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理介绍"><span class="post-toc-number">2.</span> <span class="post-toc-text">原理介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AT的实现"><span class="post-toc-number">3.</span> <span class="post-toc-text">AT的实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TCC实现"><span class="post-toc-number">4.</span> <span class="post-toc-text">TCC实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#SAGA"><span class="post-toc-number">5.</span> <span class="post-toc-text">SAGA</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MQ"><span class="post-toc-number">6.</span> <span class="post-toc-text">MQ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#消息手动确认"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">消息手动确认</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#半消息确认发送"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">半消息确认发送</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#没有银弹"><span class="post-toc-number">7.</span> <span class="post-toc-text">没有银弹</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">8.</span> <span class="post-toc-text">参考</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                Seata与分布式事务方案
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>noir</strong>
+        <span>12月 07, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/分布式事务/">分布式事务</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Seata与分布式事务方案&url=https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/index.html&pic=https://noir-lattice.github.io/img/logo.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Seata与分布式事务方案&url=https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/index.html&via=noir" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://noir-lattice.github.io/2020/12/07/Seata与分布式事务方案/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>对于分布式事务的基础理论已经有启过一篇<a href="https://noir-lattice.github.io/2020/05/06/%E8%81%8A%E8%81%8A%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">聊聊分布式事务</a>，这一篇主要将工业实践，从主流的中间件入手，掰开聊聊分布式事务框架。</p>
+ <a id="more"></a>
+
+
+
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对于大量垂直分库划分服务的微服务架构来说，和对微服务架构的第一原则相似，我们要尽量避免分布式事务。而工业上追求的最终一致性的常见方案有：</p>
+<ul>
+<li>TCC</li>
+<li>SAGE</li>
+<li>XA</li>
+<li>MQ</li>
+</ul>
+<p>而Seata作为事务框架做了以上支持下还提供了AT(Automatic Transaction)模式提供选择，本文主要从AT事务展开讲解并对各类方案进行对比并对场景进行分析。</p>
+<h2 id="原理介绍"><a href="#原理介绍" class="headerlink" title="原理介绍"></a>原理介绍</h2><p>整体架构借鉴的是DTP(Distributed Transaction Processing)模型，我们可以理解为其作为XA的设计基础，Seata将其进行了应用层的抽象实现。</p>
+<p><img src="WX20201207-193713.png" alt="DTP-model"></p>
+<p>既然整体模型和XA像我们为什么不使用XA呢？这里有几个问题：</p>
+<ul>
+<li>数据库的基础支持（Mysql5.7虽然有支持但是相当不稳定）</li>
+<li>协议本身的问题，因为协议是数据层的，应用层无法感知，而RM中出现任何问题（超时、悬挂、死锁）应用层无法插手，优化困难且难以定位</li>
+<li>社区支持少，落地的方案基本是商用方案（Tuxedo/WebLogic/WebSphere 等)。</li>
+</ul>
+<p>对于seata的DTP实现我们可以看下图：</p>
+<p><img src="DTP%E5%AE%9E%E7%8E%B0.png" alt="seata"></p>
+<p>我们可以看到在架构中有三个角色：</p>
+<ul>
+<li>TM(Transaction Manager)</li>
+<li>RM(Resource Manager)</li>
+<li>TC(Transaction Coordinator)</li>
+</ul>
+<p>TM和RM是seats-client都支持的角色，即可从任一服务发起全局事务，而xid提供了事务的统一标识，保证各服务间的事务扩散，我们来看一个事务发起的流程：</p>
+<ol>
+<li>TM向TC开启一个全局事务并创建生成全局唯一的xid</li>
+<li>xid在服务链路中传播</li>
+<li>RM在检测到链路上的xid后向TC注册分支事务并纳入全局事务管辖</li>
+<li>TM向TC发起针对xid的全局提交或回滚</li>
+<li>TC通过xid管辖所有分支事务进行提交或回滚</li>
+</ol>
+<p>而上面这个步骤不难看出，这个事务同样也是2PC甚至可以说是标准TCC的一个实现，我们再详细看具体的模式实现。</p>
+<h2 id="AT的实现"><a href="#AT的实现" class="headerlink" title="AT的实现"></a>AT的实现</h2><p>AT是seata主创，相对于TCC对业务代码的侵入，Seata将JDBC的数据源进行代理从而通过各个服务的本地事务来进行自动的confirm or cancel。</p>
+<p><img src="proxy.png" alt="proxy"></p>
+<p>而通过代理数据层，可以实现所有的SQL事务的拦截与SQL的解析，从而记录下回滚日志（至undolog table）以备第二阶段的cancel使用，我们可以看看一个AT事务的生命周期：</p>
+<p><img src="Life-cycle.png" alt="life-cyc"></p>
+<p>这是一个比较全的生命周期，我们为了方便理解可以拆解成TCC的周期图（实际上，AT可以理解为自动的TCC逻辑），首先是try阶段：<br><img src="at-try.png" alt="at-try"><br>对于RDBMS来说，在第一阶段我们的事务其实已经提交了，而在全局事务的上下文中，这部分数据是为提交的，这就导致了对于全局事务来说隔离级别是读未提交的，Seata默认的全局隔离级别是读已提交，而其可以指定读为提交，这里就是通过Seata代理parse SQL然后帮你改成SELECT FOR UPDATE实现的了。</p>
+<p>而当所有分支事务完成，RM的主流程结束，此时并不需要更多的同步协同处理，只需要清理之前的undo log即可:<br><img src="at-confime.png" alt="at-commit"></p>
+<p>而如果决议是回滚，各分支事务就可以通过回滚日志进行各业务的回滚:<br><img src="at-rollback.png" alt="at-cancel"></p>
+<p>总结一下，通过DTP已经基本实现了事务的原子性，而数据层面上对于分布式数据来说存在中间状态(默认情况下)，所以存在数据一致的问题，对于部分已提交的分支事务是可读的，在一致性上做出了让步，而为了保证事务的隔离，这部分中间态的数据是「只读」的，这里的只读是seata事务上下文的只读，前面说到AT会代理数据连接，自然就可以做到SQL的parse，而对于任意AT事务分支，都会根据修改的数据主键上一个GlobalLock，在分支事务commit时会尝试获取资源。</p>
+<p>这个GlobalLock我们可以简单的理解成分布式锁，这个锁是由TC维护的，执行一个Try阶段的事务分支（Client）会执行以下的操作：</p>
+<ul>
+<li>执行本地业务SQL</li>
+<li>尝试获取全局锁</li>
+<li>获取到全局锁则提交本地事务，失败则重试，重试超出限制则回滚  </li>
+</ul>
+<p>这里有一个需要特殊说明的是@GlobalLock是默认加在@GlobalTransaction和其下链路上的，而手动指定@GlobalLock可以将可能依赖到事务进行过程中软状态数据的数据隔离，而对于不需要进行上锁或纳入事务管理的（日志/冗余记录）的可以手动@IgnoreGlobalLock将这部分行为推出seata事务周期。</p>
+<p>以上就是从ACID角度来看的AT模式的设计和方案，对于业务接入与实现来说，因为主要实现在于DataSource Proxy &amp; Transaction Coordinator，补偿都是自动生成的undo log，接入客户端只需要实现rpc的切面来注册发起与事务感知即可，所以接入侵入性小，单一注解即可达到一个分布式事务的支持。</p>
+<h2 id="TCC实现"><a href="#TCC实现" class="headerlink" title="TCC实现"></a>TCC实现</h2><p>上面我们说到AT是基于JDBC代理拦截SQL解析生成补偿SQL(undo log table)并交由全局锁维护数据写隔离来实现分布式事务的，而对于一些在DBMS以外的系统其实是无法支持相应的自动补偿的，此时我们该如何去实现支持减轻手动补偿的压力呢？</p>
+<ol>
+<li>通过注册cancel阶段的业务回调去做补偿（我没有确认是否seata有做这方面的支持，不过一般来说都会提供相应的扩展点）。</li>
+<li>选择使用更加可拓展的TCC实现。</li>
+</ol>
+<p>对于第二点，本身AT就是TCC的一种实现，只需要开放对应的接口即可，这里只需要对AT模式做基本的功能裁剪即可做到支持（当然Seata也是这么干的）：<br><img src="tcc.png" alt="tcc"></p>
+<p>需要注意的是，裁剪后的TCC是不在GlobalLock上下文中的，你可以手动指定，也可以自己实现隔离（自己的分布式锁？）。</p>
+<h2 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h2><p><img src="saga.png" alt="saga"></p>
+<p>对于长链路的复杂调用我们自动补偿或者要求强数据一致会带来很大的性能负担，很多时候我们只需要最终一致性的时候我们更应该选择SAGA来进行我们的事务处理。</p>
+<p>SAGA维护了调用链路服务的状态机，在一个状态失败后，会选择尝试补偿或者回滚，这个和TCC很像，需要编码自己实现，不过整体方案对整个事务的性能消耗大大优于TCC，而业界的SAGA实现主要是两种，一种基本状态机或流程引擎通过 DSL 方式编排流程程和补偿定义，一种是基于 Java 注解+拦截器实现补偿，我们简单对比一下两种方案：</p>
+<p><img src="saga-table.png" alt="saga"></p>
+<p>Seata是状态机和 DSL 方式编排流程实现，</p>
+<ul>
+<li><p>通过状态图来定义服务调用的流程并生成 json 状态语言定义文件；</p>
+</li>
+<li><p>状态图中一个节点可以是调用一个服务，节点可以配置它的补偿节点；</p>
+</li>
+<li><p>状态图 json 由状态机引擎驱动执行，当出现异常时状态引擎反向执行已成功节点对应的补偿节点将事务回滚；注意: 异常发生时是否进行补偿也可由用户自定义决定</p>
+</li>
+<li><p>可以实现服务编排需求，支持单项选择、并发、异步、子状态机、参数转换、参数映射、服务执行状态判断、异常捕获等功能；</p>
+</li>
+</ul>
+<h2 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h2><p>我们讲MQ实现事务时到底是怎么实现：</p>
+<p><img src="%E5%9F%BA%E4%BA%8E%E6%B6%88%E6%81%AF%E7%9A%84%E4%BA%8B%E5%8A%A1.png" alt="mq"></p>
+<p>生产者</p>
+<ul>
+<li>执行业务</li>
+<li>插入消息状态表并提交</li>
+<li>异步发送消息</li>
+<li>更新消息状态  </li>
+</ul>
+<p>发送兜底定时job：</p>
+<ul>
+<li>获取未发送状态消息记录</li>
+<li>重发并更新消息状态  </li>
+</ul>
+<p>消费者</p>
+<ul>
+<li>接收消息</li>
+<li>消息入库</li>
+<li>异步执行业务（必须幂等）并更新消息状态  </li>
+</ul>
+<p>消费兜底定时job：</p>
+<ul>
+<li>获取非终态的消息记录</li>
+<li>根据消息进行重试并更新状态 </li>
+</ul>
+<p>这以上是比较原始的mq来做分布式事务的例子，正常情况下我们有很多mq特性进行上述步骤的简化。</p>
+<h3 id="消息手动确认"><a href="#消息手动确认" class="headerlink" title="消息手动确认"></a>消息手动确认</h3><p>通过消息手动确认来简化生产者消息状态机和补偿job，此时消费者消费逻辑：</p>
+<ul>
+<li>接收消息</li>
+<li>处理并执行业务</li>
+<li>手动确认<br>当消费业务过程发生异常状态，则无法真正消费消息并将交由mq来进行重试。</li>
+</ul>
+<h3 id="半消息确认发送"><a href="#半消息确认发送" class="headerlink" title="半消息确认发送"></a>半消息确认发送</h3><p>通过半消息简化发送方的状态机和补偿job，此时生产者生产逻辑：</p>
+<ul>
+<li>发送Half message</li>
+<li>处理业务</li>
+<li>commit message</li>
+</ul>
+<p>当生产业务过程发生异常状态，则消息一直是挂起状态，当超过配置定时，将由mq发起事务状态回查，而生产方需要对接回查接口，根据当前状态机告诉mq是否commit或者取消发送。<br>这里存在几种常见异常：</p>
+<ol>
+<li>发消息失败</li>
+<li>业务失败</li>
+<li>commit fail</li>
+</ol>
+<p>发送失败没有意义，而当业务失败，mq回查时，我们根据状态机告知取消发送，mq将清理半消息；而当因为网络问题commit fail时，回查后会重发，确保发送方的发送是事务性的，所以也叫事务性消息。</p>
+<p>简化后的事务消息：</p>
+<p><img src="%E7%AE%80%E5%8C%96%E5%90%8E%E7%9A%84%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF.png" alt="简化后的事务消息"></p>
+<h2 id="没有银弹"><a href="#没有银弹" class="headerlink" title="没有银弹"></a>没有银弹</h2><p>我们无法通过拿到圣杯实现一切愿望，我们找不到银弹解决一切问题。</p>
+<p>在对于分布式事务以及一致性的上下文中始终要有一些取舍，业务侵入性、性能损耗、数据一致性无法同时保证，我们要根据实际情况进行具体的评估实现。</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">业务侵入</th>
+<th align="center">性能损耗</th>
+<th align="center">隔离性</th>
+<th align="center">补偿方式</th>
+<th align="center">复杂链路动态路由</th>
+<th>资源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MQ</td>
+<td align="center">中</td>
+<td align="center">低</td>
+<td align="center">读未提交</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td>All</td>
+</tr>
+<tr>
+<td align="left">AT</td>
+<td align="center">低</td>
+<td align="center">高</td>
+<td align="center">读未提交(可支持至已提交)</td>
+<td align="center">自动补偿</td>
+<td align="center">-</td>
+<td>支持ACID的DBMS</td>
+</tr>
+<tr>
+<td align="left">TCC</td>
+<td align="center">高</td>
+<td align="center">中</td>
+<td align="center">读未提交</td>
+<td align="center">手动实现</td>
+<td align="center">-</td>
+<td>All</td>
+</tr>
+<tr>
+<td align="left">SAGA</td>
+<td align="center">高</td>
+<td align="center">中</td>
+<td align="center">读未提交</td>
+<td align="center">手动实现</td>
+<td align="center">-</td>
+<td>All</td>
+</tr>
+<tr>
+<td align="left">XA</td>
+<td align="center">低</td>
+<td align="center">高</td>
+<td align="center">读已提交</td>
+<td align="center">自动补偿</td>
+<td align="center">可配置化DSL+状态机</td>
+<td>支持XA协议的DBMS</td>
+</tr>
+</tbody></table>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://pubs.opengroup.org/onlinepubs/009680699/toc.pdf" target="_blank" rel="noopener">Distributed Transaction Processing: The XA Specification</a></li>
+<li><a href="https://github.com/seata/seata/wiki/AT-Mode" target="_blank" rel="noopener">at-mode wiki</a></li>
+<li><a href="https://github.com/seata/seata/wiki/MT-Mode" target="_blank" rel="noopener">mt-mode wiki</a></li>
+<li>《设计数据密集型应用程序》    —– Martin Kleppmann</li>
+<li><a href="https://segmentfault.com/a/1190000018956054" target="_blank" rel="noopener">源码｜详解分布式事务之 Seata-Client 原理及流程</a></li>
+<li><a href="https://myslide.cn/slides/18426" target="_blank" rel="noopener">Seata 在微服务一致性中的探索 季敏</a></li>
+</ul>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2020/12/16/mybatis-update返回值问题/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2020/12/06/TCP-UDP总结与梳理/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="noir's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        noir-lattice@outlook.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2020/12/">十二月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/08/">八月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/07/">七月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/06/">六月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/10/">十月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/09/">九月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/devops/">devops<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/java/">java<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/kubernetes/">kubernetes<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/中间件/">中间件<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/杂谈/">杂谈<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/架构/">架构<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法与数据结构/">算法与数据结构<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/缓存中间件/">缓存中间件<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/网络/">网络<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/踩坑记录/">踩坑记录<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/面试/">面试<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">29</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+<!-- 
+    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+            主题 - Material
+            <span class="sidebar-badge badge-circle">i</span>
+        </div>
+    </a>
+ -->
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/noir-lattice" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+        <a href="https://space.bilibili.com/2006225" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-bilibili">
+                <span class="visuallyhidden">Bilibili</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Telegram -->
+    
+
+    <!-- V2EX -->
+    
+
+    <!-- Segmentfault -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;<span year></span>&nbsp;Noir的博客
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?Bn9UzEm8RrBSxqyZB0zPjA==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    var copyrightNow = new Date().getFullYear();
+    var textContent = document.querySelector('span[year]')
+
+    copyrightSince = 0000;
+    if (copyrightSince === copyrightNow||copyrightSince === 0000) {
+        textContent.textContent = copyrightNow
+    } else {
+        textContent.textContent = copyrightSince + ' - ' + copyrightNow
+    }
+
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.6 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+    <link  href="/css/viewer.min.css" rel="stylesheet">
+    <script src="/js/viewer.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        //默认设置， 可以根据个人需求和喜好进行配置
+        //详细参考官方说明
+        Viewer.setDefaults({
+            //设置初始缩放 default: 1
+            zoomRatio : [0.5],
+            //设置滚轮缩放比率 default: 0.1
+            show: function () {
+              this.viewer.zoomTo(0.5);
+            },
+          });
+        //获得content中所有的图片， 不同主题可能有所不同
+        //为了和其他的图片区别开来 所以在markdown中插入图片的时候使用独特的记号
+        var imageList = document.getElementsByTagName("img");
+        //将获取到的HTMLCollections转化成Array
+        var imageArray = new Array();
+        Array.prototype.forEach.call(imageList, element => {
+          imageArray.push(element);
+        });
+        //设置每个图片成为图片组
+        Array.prototype.forEach.call(imageList, element => {
+          var viewer1 = new Viewer(element);
+          viewer1.images = imageArray;
+          viewer1.length = imageArray.length;
+        });
+    </script>
+</html>

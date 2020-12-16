@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.6 -->
+    <script>
+        window.materialVersion = "1.5.6"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0',
+            '1.5.2',
+            '1.5.5'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+
+
+
+
+
+
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            聊聊JVM | 
+        
+        Noir的博客
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/logo.png">
+    <link rel="icon" href="/img/logo.png">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" itemprop="description" content="今天也要好好加油鸭！！！">
+    <meta name="keywords" content=",JVM">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?7yUD/wxgDe3Kqz0nM7DMfQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","/css/material-icons.css?pqhB/Rd/ab0H2+kZp0RDmw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Noir的博客">
+    <meta name="msapplication-starturl" content="https://noir-lattice.github.io/2020/06/15/聊聊JVM/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Noir的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/logo.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://noir-lattice.github.io/2020/06/15/聊聊JVM/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="聊聊JVM | Noir的博客">
+    <meta property="og:image" content="/img/logo.png">
+    <meta property="og:description" content="今天也要好好加油鸭！！！">
+    <meta property="og:article:tag" content="JVM"> 
+
+    
+        <meta property="article:published_time" content="Mon Jun 15 2020 14:51:47 GMT+0800">
+        <meta property="article:modified_time" content="Sun Dec 06 2020 14:15:13 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://noir-lattice.github.io/2020/06/15/聊聊JVM/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://noir-lattice.github.io/2020/06/15/聊聊JVM/index.html",
+    "headline": "聊聊JVM",
+    "datePublished": "Mon Jun 15 2020 14:51:47 GMT+0800",
+    "dateModified": "Sun Dec 06 2020 14:15:13 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "noir",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "Freiheit als Autonomie"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Noir的博客",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/logo.png"
+        }
+    },
+    "keywords": ",JVM",
+    "description": "今天也要好好加油鸭！！！",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java-Virtual-Machine"><span class="post-toc-number">1.</span> <span class="post-toc-text">Java Virtual Machine</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内存结构"><span class="post-toc-number">2.</span> <span class="post-toc-text">内存结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#程序计数器"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">程序计数器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#本地方法栈"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">本地方法栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#虚拟机栈"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">虚拟机栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#堆"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">堆</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法区"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">方法区</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Garbage-Collection"><span class="post-toc-number">3.</span> <span class="post-toc-text">Garbage Collection</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#是不是垃圾"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">是不是垃圾</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何做垃圾处理"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">如何做垃圾处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#标记-删除"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">标记-删除</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#标记-压缩"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">标记-压缩</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#标记-复制"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">标记-复制</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何做垃圾分类"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">如何做垃圾分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#新生代"><span class="post-toc-number">3.3.1.</span> <span class="post-toc-text">新生代</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Eden"><span class="post-toc-number">3.3.1.1.</span> <span class="post-toc-text">Eden</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Survivor"><span class="post-toc-number">3.3.1.2.</span> <span class="post-toc-text">Survivor</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#新生代GC时"><span class="post-toc-number">3.3.1.3.</span> <span class="post-toc-text">新生代GC时</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#老年带"><span class="post-toc-number">3.3.2.</span> <span class="post-toc-text">老年带</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#永久区"><span class="post-toc-number">3.3.3.</span> <span class="post-toc-text">永久区</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JIT-Just-in-Time"><span class="post-toc-number">4.</span> <span class="post-toc-text">JIT(Just in Time)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何判Hot"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">如何判Hot</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#编译器"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">编译器</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AOT-Ahead-on-Time"><span class="post-toc-number">5.</span> <span class="post-toc-text">AOT(Ahead on Time)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ClassLoader"><span class="post-toc-number">6.</span> <span class="post-toc-text">ClassLoader</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                聊聊JVM
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>noir</strong>
+        <span>6月 15, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/JVM/">JVM</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=聊聊JVM&url=https://noir-lattice.github.io/2020/06/15/聊聊JVM/index.html&pic=https://noir-lattice.github.io/img/logo.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=聊聊JVM&url=https://noir-lattice.github.io/2020/06/15/聊聊JVM/index.html&via=noir" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://noir-lattice.github.io/2020/06/15/聊聊JVM/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://noir-lattice.github.io/2020/06/15/聊聊JVM/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="Java-Virtual-Machine"><a href="#Java-Virtual-Machine" class="headerlink" title="Java Virtual Machine"></a>Java Virtual Machine</h2><p>对于java虚拟机咱们写是需要专门写一篇来做下知识梳理的，将从以下各点内容铺开叙述JVM的结构与机制：</p>
+<ul>
+<li>内存结构</li>
+<li>Garbage Collection</li>
+<li>JIT(Just in Time)</li>
+<li>AOT(Ahead on Time)</li>
+<li>ClassLoader</li>
+</ul>
+<h2 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h2><p>对于一个虚拟机架构的语言引擎，在启动时已经按照一定的方式将内存分类分区进行了调整。而对于JVM来说，内存结构分为6块，其结构如下图：<br><img src="ms.png" alt="内存结构"><br>包括公共共享的堆与方法区与线程内的程序计数器、虚拟机栈和本地方法栈  </p>
+<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>程序计数器标记当前进程序进程执行字节码的地址，分支、循环、跳转、异常处理与线程恢复等功能都依赖其完成。注意区分该处的程序计数器与操作系统的进程内的计数器，该处的程序计数器供给java线程使用。而对于Native方法不由JVM托管，故执行Native方法不需要PC寄存器。</p>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>为本地方法服务。需要理解的是，执行其实还是操作系统在执行，JVM的本地方法栈只对方法压栈与出栈。</p>
+<h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><p>FIFO的策咯用栈来表示再合适不过了，在计算机系统中常用入栈/出栈来实现方法的调用/返回。在JVM中，将方法的局部变量表、操作数栈、动态链接和方法的返回构造成一个栈帧，并对其调用进行不断的压栈与出栈操作。 </p>
+<p>栈内与代码执行关系如下图：<br><img src="vmstack.gif" alt="vmstack"><br>我们可以看到所有的方法执行都是入栈/出栈的操作，那么一个递归没写出口会爆栈就是上图这个栈爆了。    </p>
+<p>而压入栈的每个栈帧记录着方法的：</p>
+<ul>
+<li><p>局部变量表: 用于存放方法的参数和和方法内定义的局部变量的的存储空间。在编译时，已经确认好改块内存区域的大小。在运行时，改变量表默认0号位置存放当前对象的指针（this）。  </p>
+</li>
+<li><p>操作数栈: 该块内存同局部变量表，在编译时以确定大小。通过压栈/出栈实现计算。 </p>
+</li>
+<li><p>动态链接: 当执行过程中需要调用一个方法，需要使用其名字（符号引用）找到对应的类和方法（直接引用），在运行时对符号引用解析成直接引用就叫动态链接。  </p>
+</li>
+<li><p>返回地址: 方法结束后需要返回到指定的位置，比如正常返回结果后要回到其被调用的赋值语句、异常退出后要回到被调用的catch语句以确保程序继续运行。  </p>
+</li>
+</ul>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。这个区域是用来存放对象实例的，几乎所有对象实例都会在这里分配内存。内内部的内存布局为GC的分代算法提供支持，具体内容由GC展开。</p>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><p>属于共享内存区域，存储描述类信息、常量、静态变量和JIT后的代码。</p>
+<h2 id="Garbage-Collection"><a href="#Garbage-Collection" class="headerlink" title="Garbage Collection"></a>Garbage Collection</h2><p>作为一个高级语言，不写析构和手动del是java能提升开发效率与降低开发人员门槛的重要特性，必然的，GC就是不得不说与不得不理解的一个东西。<br>本文将从以下几个问题来说明JVM的GC:</p>
+<ul>
+<li>怎么判断是不是垃圾</li>
+<li>如何做垃圾处理</li>
+<li>如何做垃圾分类  </li>
+</ul>
+<h3 id="是不是垃圾"><a href="#是不是垃圾" class="headerlink" title="是不是垃圾"></a>是不是垃圾</h3><p>  To Be or Not to Be?<br>  如何智能的判断当前内存里面的东西是不是死了，这是一个令人困扰的事情。在C++11以后我们可以通过显示的声明shared_ptr和week_ptr来实现基于引用计数的GC(Reference Counting GC)，令人兴奋的是引用计数非常便于理解，当有引用添加时计数器+1，当引用失效时计数器-1，在计数器发现引用次数为0时内存数据被销毁，而相互引用使用弱引用week_ptr来防止相互依赖的对象内存永远不会被销毁导致的内存泄漏。这个实现优雅而实时，不用担心GC工作太久带来的时停，缺点就是需要显示的声明强弱引用，而java作为<em>友好</em>的工程语言，所以自然不会用这种方式。  </p>
+<p>  JVM先将内存分配管理交由虚拟机，再通过对栈内引用进行tracing，在栈内引用的对象链上的就是可达的，反之不可达。<br>  <img src="tracing.png" alt="tracing"></p>
+<h3 id="如何做垃圾处理"><a href="#如何做垃圾处理" class="headerlink" title="如何做垃圾处理"></a>如何做垃圾处理</h3><p>对于Reference Counting GC来说垃圾回收是瞬时且不中断的，不需要进行更多的设计。而基于tracing的则需要有独立的GC线程对内存区域进行扫描，那么扫描后如何进行清理呢？</p>
+<h4 id="标记-删除"><a href="#标记-删除" class="headerlink" title="标记-删除"></a>标记-删除</h4><p>tracing后标记可达后，简单的将不可达的内存空间清空。<br><img src="tag-remove.png" alt="tag-remove">  </p>
+<h4 id="标记-压缩"><a href="#标记-压缩" class="headerlink" title="标记-压缩"></a>标记-压缩</h4><p>tracing后标记可达后，将可达的内存移动压缩至内存一侧，减少内存碎片。<br><img src="tag-zip.png" alt="tag-zip"></p>
+<h4 id="标记-复制"><a href="#标记-复制" class="headerlink" title="标记-复制"></a>标记-复制</h4><p>由两块同样大小的内存组成，将标记可达的内存按顺序复制到另一块内存，在启用改内存后清空原内存空间。<br><img src="tag-copy.png" alt="tag-copy"></p>
+<h3 id="如何做垃圾分类"><a href="#如何做垃圾分类" class="headerlink" title="如何做垃圾分类"></a>如何做垃圾分类</h3><p>JVM通过将对象存活周期做划分，将其分代回收来减少扫描压力。在JVM的堆中，将内存分带划分为以下部分<br><img src="heap.png" alt="heap"><br>对于GC，我们将从年轻代空间（包括 Eden 和 Survivor 区域）回收内存称为 Minor GC;将老年代的GC（伴随一次Minor GC）称为Full GC（或 Major GC）。</p>
+<h4 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h4><p>新生的对象存放在这里哦。而新生代占总内存的1/3，其中又可以详细分为一个Eden和两个Survivor。</p>
+<h5 id="Eden"><a href="#Eden" class="headerlink" title="Eden"></a>Eden</h5><p>伊甸区，顾名思义，是新生的对象存放的地方，占总新生代的4/5。在GC发生后，一块Eden和一块正在使用的Survivor一齐进行标记-复制，将存活的对象复制到另一块Survivor中并将当前Eden和Survivor清空，可以看出，在默认的比例中，每次GC后新生代中的存活对象不会超过10%（一块Survivor），而超过Survivor的会交由老年代分配担保。</p>
+<h5 id="Survivor"><a href="#Survivor" class="headerlink" title="Survivor"></a>Survivor</h5><p>当Eden区GC后幸存的对象会移动到Survivor区。Survivor区有两个，每个占新生代的1/10。两块Survivor进行标记-复制的回收策略，所以真实可用的只有其中的一块。</p>
+<h5 id="新生代GC时"><a href="#新生代GC时" class="headerlink" title="新生代GC时"></a>新生代GC时</h5><p>Survivor Form和Eden中的对象会进行标记复制：<br><img src="yong-gc-before.png" alt="yong-gc-before"><br>复制完成后Survivor Form和Survivor To指针会互换：<br><img src="yong-gc-after.png" alt="yong-gc-after"><br>而当form和survivor中的存活对象大于to可容纳的对象空间时，就需要将剩余的对象放入老年带中，即老年代要进行分配担保。而分配担保是要在老年代拥有空余的空间的前提下进行的，而又因为每次存活下来的对象数量不可预知，所以取<em>每次GC后晋升至老年带的对象数量的平均作为参考</em>，从概率上来看，陡然激增对象是很少发生的，所以基本上这个参考的值做判断没有问题。那么我们可以总结出分配担保的流程如下：</p>
+<ul>
+<li>form和survivor中的存活对象大于to可容纳的对象空间</li>
+<li>判断每次晋升的对象数量均值与老年带剩余空间比较，若大于该空间，则触发Full GC,否则继续</li>
+<li>将对象尝试分配至老年带，成功则结束，失败则触发Full GC</li>
+</ul>
+<h4 id="老年带"><a href="#老年带" class="headerlink" title="老年带"></a>老年带</h4><p>老年代认为对象存活率高，不需要时常GC，故而一般使用标记-删除和标记-压缩。</p>
+<h4 id="永久区"><a href="#永久区" class="headerlink" title="永久区"></a>永久区</h4><p>java8已经被删除了哦，这部分是存放类信息，已经移到Metadata里了哦。（至于说Method area，这个指的是概念而不是实现）</p>
+<h2 id="JIT-Just-in-Time"><a href="#JIT-Just-in-Time" class="headerlink" title="JIT(Just in Time)"></a>JIT(Just in Time)</h2><p>对于VM来说，interpreter是最简单的，但是JVM可不是单单一个解释器就搞定了。其实现了JIT编译(just-in-time compilation)即即时编译，什么意思呢？<br>JVM判定热点代码，在另外的进程将热点代码从字节码编译成机器码，而在后续的热点代码执行则跳过解释器直接执行机器码来达到性能优化。<br>我们可以通过流程图理解<br><img src="jit-flow.png" alt="jit-flow"><br>在程序运行环境中内存资源限制较大时，可以使用解释执行节约内存（因为机器码会被缓存在Method area），反之可以使用编译执行来提升效率。当通过编译器优化时，发现并没有起到优化作用，可以通过逆优化退回到解释状态继续执行。</p>
+<h3 id="如何判Hot"><a href="#如何判Hot" class="headerlink" title="如何判Hot"></a>如何判Hot</h3><ul>
+<li>基于采样<br>栈顶定期采样，出现频繁的为hot。基本上该方式就是在定期看执行的方法，看到谁多谁就热。</li>
+<li>基于统计<br>每个方法加个计数器，调了就加，多了就热。（这里计数器不单指对方法单元，还对方法内的回边操作另设计数器）</li>
+</ul>
+<h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>JVM的JIT有两个Compiler:</p>
+<ul>
+<li>Client Compiler (C1)</li>
+<li>Server Compiler (C2)</li>
+</ul>
+<p>而和GC策略很像的是，JVM同样为了折中做了分层策略：</p>
+<ul>
+<li>第 0 层：程序解释执行，解释器不开启性能监控功能，可触发第 1 层编译。</li>
+<li>第 1 层：也称为 C1 编译，将字节码编译为本地代码，进行简单，可靠的优化，如有必要将加入性能监控的逻辑。</li>
+<li>第 2 层（或 2 层以上）：也称为 C2 编译，也是将字节码编译为本地代码，但是会启用一些编译耗时较长的优化，甚至会根据性能监控信息进行一些不可靠的激进优化。</li>
+</ul>
+<p>实施分层编译后，Client Compiler 和 Server Compiler 将会同时工作，许多代码都可能会被多次编译看，用 Client Compiler 获取更高的编译速度，用 Server Compiler 获取更好的编译质量，在解释执行的时候也无须再承担收集性能监控信息的任务。</p>
+<h2 id="AOT-Ahead-on-Time"><a href="#AOT-Ahead-on-Time" class="headerlink" title="AOT(Ahead on Time)"></a>AOT(Ahead on Time)</h2><p>编译器出来的东西比解释器快是开发者的共同认知。将优化交给编译器，并通过编译时的优化策略来提升性能，而JIT可以理解为是一个杂交的编译器与解释器，以方法为单位进行编译优化。而AOT需要的是将运行时的编译动作提前到编译时，在JAVA9以后提供该特性，但是服务端的大部分框架支持并不是很好，更多用到的还是android。</p>
+<p>优点非常明显：</p>
+<ul>
+<li>不用运行时的性能监控及JIT编译器一直吃我们的CPU</li>
+<li>方法区也不用浪费内存放机器码</li>
+</ul>
+<p>缺点就是全编译，并且失去平台无关性。</p>
+<h2 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h2><p><img src="classloader.png" alt="classloarder"></p>
+<p>三个ClassLoader分别负责加载对应的类，而加载一个类时，使用双亲委派策略，类装载器有载入类的需求时，会先请示其Parent使用其搜索路径帮忙载入，如果Parent 找不到,那么才由自己依照自己的搜索路径搜索类。<br>而最顶级的加载器BootstrapClassloader是C++实现的，仅逻辑存在，在Java中无类型定义。<br>而类加载器是同步的（线程安全），同一个类只会被加载一次。</p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2020/07/19/细谈分布式锁/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2020/05/16/用docker启动一个rabbitmq集群/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="noir's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        noir-lattice@outlook.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2020/12/">十二月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/08/">八月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/07/">七月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/06/">六月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/10/">十月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/09/">九月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/devops/">devops<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/java/">java<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/kubernetes/">kubernetes<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/中间件/">中间件<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/杂谈/">杂谈<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/架构/">架构<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法与数据结构/">算法与数据结构<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/缓存中间件/">缓存中间件<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/网络/">网络<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/踩坑记录/">踩坑记录<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/面试/">面试<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">29</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+<!-- 
+    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+            主题 - Material
+            <span class="sidebar-badge badge-circle">i</span>
+        </div>
+    </a>
+ -->
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/noir-lattice" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+        <a href="https://space.bilibili.com/2006225" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-bilibili">
+                <span class="visuallyhidden">Bilibili</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Telegram -->
+    
+
+    <!-- V2EX -->
+    
+
+    <!-- Segmentfault -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;<span year></span>&nbsp;Noir的博客
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?Bn9UzEm8RrBSxqyZB0zPjA==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    var copyrightNow = new Date().getFullYear();
+    var textContent = document.querySelector('span[year]')
+
+    copyrightSince = 0000;
+    if (copyrightSince === copyrightNow||copyrightSince === 0000) {
+        textContent.textContent = copyrightNow
+    } else {
+        textContent.textContent = copyrightSince + ' - ' + copyrightNow
+    }
+
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.6 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+    <link  href="/css/viewer.min.css" rel="stylesheet">
+    <script src="/js/viewer.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        //默认设置， 可以根据个人需求和喜好进行配置
+        //详细参考官方说明
+        Viewer.setDefaults({
+            //设置初始缩放 default: 1
+            zoomRatio : [0.5],
+            //设置滚轮缩放比率 default: 0.1
+            show: function () {
+              this.viewer.zoomTo(0.5);
+            },
+          });
+        //获得content中所有的图片， 不同主题可能有所不同
+        //为了和其他的图片区别开来 所以在markdown中插入图片的时候使用独特的记号
+        var imageList = document.getElementsByTagName("img");
+        //将获取到的HTMLCollections转化成Array
+        var imageArray = new Array();
+        Array.prototype.forEach.call(imageList, element => {
+          imageArray.push(element);
+        });
+        //设置每个图片成为图片组
+        Array.prototype.forEach.call(imageList, element => {
+          var viewer1 = new Viewer(element);
+          viewer1.images = imageArray;
+          viewer1.length = imageArray.length;
+        });
+    </script>
+</html>
